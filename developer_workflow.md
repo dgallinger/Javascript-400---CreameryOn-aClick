@@ -20,4 +20,5 @@ Every day routine:
 	- `git checkout master`
 5. merge changes to master and resolve merge conflicts:
 	- `git merge <yourname_development>`
-
+6. push changes to master
+	- `git push origin master`
