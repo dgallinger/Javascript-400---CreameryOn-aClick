@@ -12,3 +12,5 @@ mongoose.connect('mongodb://localhost/js400-final-project', {
    console.log(`Server is listening on http://localhost:${port}`);
   });
 });
+
+
