@@ -3,7 +3,7 @@ const router = Router();
 
 // Get home page
 router.get("/", function(req,res,next) {
-  res.render('index', {title: 'CreameryOn-AClick'})
+  res.render('shop/index', {title: 'CreameryOn-AClick'})
 });
 
 
