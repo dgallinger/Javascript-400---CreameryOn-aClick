@@ -18,6 +18,7 @@ const MongoStore = require('connect-mongo')(session);
 
 
 
+
 server.use(express.json());
 server.use(express.static('files'));
 
@@ -41,7 +42,7 @@ server.use(session({
     resave: false, 
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    cookie: { maxAge: 180 * 60 * 1000 }
+    cookie: { maxAge: 60 * 60 * 1000 }
   }));
 
 server.use(flash());
@@ -53,6 +54,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 //setting local variable
 server.use(function(req,res,next){
     res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
     next();
 })
 
