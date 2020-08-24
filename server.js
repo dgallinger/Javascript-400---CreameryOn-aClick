@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require('path');
-const routes = require("./routes");
+const routes = require("./routes/index");
 const server = express();
 const Handlebars = require('handlebars')
 const expressHandlebars = require('express-handlebars');
@@ -9,9 +9,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const flash = require('connect-flash');
+const validator = require('express-validator');
+const MongoStore = require('connect-mongo')(session);
+
+
+
 
 
 server.use(express.json());
@@ -29,6 +33,7 @@ server.engine('.hbs', expressHbs({
 server.set('view engine', '.hbs');
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
+server.use(validator());
 server.use(cookieParser());
 
 server.use(session({
@@ -44,6 +49,12 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 server.use(express.static(path.join(__dirname, 'public')));
+
+//setting local variable
+server.use(function(req,res,next){
+    res.locals.login = req.isAuthenticated();
+    next();
+})
 
 server.use(routes);
 

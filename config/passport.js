@@ -13,11 +13,24 @@ passport.deserializeUser(function(id, done){
     });
 });
 
+//User SignUp
+
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
 },function(req, email, password, done) {
+    req.checkBody('email', 'Check Email').notEmpty().isEmail();
+    req.checkBody('password', 'Password must be at least 6 characters').notEmpty().isLength({min:6});
+    const errors = req.validationErrors();
+    if (errors) {
+        var messages = [];
+        errors.forEach(function(error){
+            messages.push(error.msg);
+        });
+        return done(null, false, req.flash( 'error', messages));
+    }
+
     User.findOne({'email': email}, function(err,user){
         if (err){
             return done(err);
@@ -36,4 +49,35 @@ passport.use('local.signup', new LocalStrategy({
         })
     });
 
+}));
+
+//user SignIn
+
+passport.use('local.signin', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+}, function(req, email, password, done) {
+    req.checkBody('email', 'Check Email').notEmpty().isEmail();
+    req.checkBody('password', 'Password must be at least 6 characters').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        var messages = [];
+        errors.forEach(function(error) {
+            messages.push(error.msg);
+        });
+        return done(null, false, req.flash('error', messages));
+    }
+    User.findOne({'email': email}, function (err, user) {
+        if (err) {
+            return done(err);
+        }
+        if (!user) {
+            return done(null, false, {message: 'No user found.'});
+        }
+        if (!user.validPassword(password)) {
+            return done(null, false, {message: 'Please check password'});
+        }
+        return done(null, user);
+    });
 }));
