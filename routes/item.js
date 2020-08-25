@@ -9,7 +9,7 @@ const Item = require('../models/items');
 
 
 router.get("/", async (req,res,next) => {
-    const successMsg = req.flash('success')[0]
+    
     Item.find(function(err, docs) {
       let itemChunks = [];
       let chunkSize = 3;
@@ -17,7 +17,7 @@ router.get("/", async (req,res,next) => {
         itemChunks.push(docs.slice(i, i+ chunkSize));
         
       }
-    res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks, successMsg: successMsg, noMessages: !successMsg});
+    res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks});
    });
   
    

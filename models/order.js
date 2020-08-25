@@ -1,31 +1,12 @@
-// retrive a previous card and modify it 
+const mongoose = require('mongoose');
 
 
-module.exports = function Cart(oldCart) {
-    this.items= oldCart.items || {};
-    this.totalQty = oldCart.totalQty || 0;
-    this.totalPrice = oldCart.totalPrice || 0;
+const orderSchema =  new mongoose.Schema({
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    cart: {type: Object, required: true},
+    address: {type: String, required: true},
+    name: {type: String, required: true},
+    paymentId: {type: String, required: true}
+});
 
-
-    this.add = function(item, id) {
-        let storedItem = this.items[id];
-        if(!storedItem){
-            storedItem = this.items[id] = {item: item, qty: 0, price : 0}; //new entry
-        }
-        storedItem.qty++;
-        storedItem.price = storedItem.item.price * storedItem.qty;
-        this.totalQty++;
-        this.totalPrice +=storedItem.item.price;
-    };
-
-    this.generateArray = function () {
-        let arr = [];
-        for (let id in this.items) {
-            arr.push(this.items[id]);
-        }
-        return arr;
-    };
-
-};
-
-
+module.exports = mongoose.model('orders', orderSchema);

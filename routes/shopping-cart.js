@@ -1,7 +1,7 @@
 
 const { Router } = require("express");
 const router = Router();
-const Order= require('../models/order')
+const Order= require('../models/cart')
 
 
 
@@ -14,6 +14,8 @@ router.get("/",async(req,res,next) => {
     let cart = await new Order(req.session.cart);
     res.render('shop/shopping-cart', {items: cart.generateArray(), totalPrice: cart.totalPrice});
 })
+
+
 
 
 
