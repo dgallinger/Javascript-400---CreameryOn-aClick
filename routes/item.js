@@ -5,7 +5,7 @@ const Item = require('../models/items');
 
 
 // Get home page
-router.get("/", function(req,res,next) {
+router.get("/", async (req,res,next) => {
    Item.find(function(err, docs) {
      let itemChunks = [];
      let chunkSize = 3;
