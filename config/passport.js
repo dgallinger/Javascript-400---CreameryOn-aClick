@@ -60,7 +60,7 @@ passport.use('local.signin', new LocalStrategy({
 }, function(req, email, password, done) {
     req.checkBody('email', 'Check Email').notEmpty().isEmail();
     req.checkBody('password', 'Password must be at least 6 characters').notEmpty();
-    var errors = req.validationErrors();
+    let errors = req.validationErrors();
     if (errors) {
         var messages = [];
         errors.forEach(function(error) {
@@ -81,3 +81,17 @@ passport.use('local.signin', new LocalStrategy({
         return done(null, user);
     });
 }));
+
+//update password
+
+
+
+// User.findOne({ username: req.user.username })
+// .then((u) => {
+//     u.setPassword(req.body.newPassword,(err, u) => {
+//         if (err) return next(err);
+//         u.save();
+//         res.status(200).json({ message: 'password change successful' });
+//     });
+
+// })

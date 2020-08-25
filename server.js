@@ -3,7 +3,7 @@ const path = require('path');
 const routes = require("./routes/index");
 const server = express();
 const Handlebars = require('handlebars')
-const expressHandlebars = require('express-handlebars');
+const expressHbs = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -15,17 +15,13 @@ const validator = require('express-validator');
 const MongoStore = require('connect-mongo')(session);
 
 
-
-
-
-
 server.use(express.json());
 server.use(express.static('files'));
 
 
 
 // setup view engine 
-const expressHbs = require('express-handlebars');
+
 server.engine('.hbs', expressHbs({
     defaultLayout: 'layout',
     extname: '.hbs',
@@ -37,6 +33,8 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(validator());
 server.use(cookieParser());
 
+// use sessions
+
 server.use(session({
     secret: 'mysupersecret', 
     resave: false, 
@@ -45,16 +43,20 @@ server.use(session({
     cookie: { maxAge: 60 * 60 * 1000 }
   }));
 
+//display messages
 server.use(flash());
+
+// user login
 server.use(passport.initialize());
 server.use(passport.session());
 
-server.use(express.static(path.join(__dirname, 'public')));
+server.use(express.static(path.join(__dirname, 'public'))); // for CSS
+
 
 //setting local variable
 server.use(function(req,res,next){
     res.locals.login = req.isAuthenticated();
-    res.locals.session = req.session;
+    res.locals.session = req.session; //saving sessions
     next();
 })
 

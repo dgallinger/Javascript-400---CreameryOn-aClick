@@ -11,9 +11,9 @@ router.use(csrfProtection);
 
 //checking if user is loggedin 
 function isLoggedIn(req, res, next) {
-    console.log("Inside is logged in")
+    
     if (req.isAuthenticated()) {
-        console.log(req.isAuthenticated())
+
 
         next();
     }
@@ -24,7 +24,7 @@ function isLoggedIn(req, res, next) {
 
 
 function notLoggedIn(req, res, next) {
-    console.log("not Inside is logged in")
+    
     if (!req.isAuthenticated()) {
         next();
     }
@@ -40,6 +40,7 @@ router.get('/profile', isLoggedIn, async(req,res,next) => {
 
 router.get('/logout', isLoggedIn,async(req,res,next) => {
     req.logout();
+    req.session.cart = null;
     res.redirect('/');
 })
 
@@ -63,7 +64,8 @@ router.get('/signup', async(req,res,next) => {
 // create user
   
 router.post('/signup', passport.authenticate('local.signup',{
-    successRedirect: '/user/profile',
+    // successRedirect: '/user/profile',
+    successRedirect: '/',
     failureRedirect: '/user/signup',
     failureFlash: true
   
@@ -73,10 +75,12 @@ router.post('/signup', passport.authenticate('local.signup',{
 router.get('/signin', async (req, res, next) => {
     var messages = req.flash('error');
     res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+    req.session.cart;
   });
   
 router.post('/signin', passport.authenticate('local.signin', {
-    successRedirect: '/user/profile',
+    // successRedirect: '/user/profile',
+    successRedirect: '/',
     failureRedirect: '/user/signin',
     failureFlash: true
   

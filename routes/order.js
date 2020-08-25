@@ -7,6 +7,7 @@ const Order= require('../models/order')
 
 
 router.get("/:id", async (req,res,next) => {
+    
     const itemId = req.params.id; 
     let cart = await new Order(req.session.cart ? req.session.cart: {});
 
@@ -18,6 +19,7 @@ router.get("/:id", async (req,res,next) => {
         req.session.cart = cart;
         res.redirect('/');
     });
+   
 
 
 });
