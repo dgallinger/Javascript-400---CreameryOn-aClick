@@ -48,7 +48,7 @@ server.use(flash());
 
 // user login
 server.use(passport.initialize());
-server.use(passport.session());
+server.use(passport.session()); // store users in a session
 
 server.use(express.static(path.join(__dirname, 'public'))); // for CSS
 
