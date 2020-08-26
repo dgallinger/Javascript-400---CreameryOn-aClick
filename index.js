@@ -13,6 +13,6 @@ mongoose.connect('mongodb://localhost/js400-final-project', {
   });
 });
 
-require('./config/passport');
+
 
 
