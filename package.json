@@ -29,7 +29,8 @@
     "mongoose": "^5.9.21",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "stripe": "^4.7.0"
+    "stripe": "^4.7.0",
+    "handlebars": "^4.7.6"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
