@@ -3,24 +3,25 @@ const { Router } = require("express");
 const router = Router();
 
 const itemDAO = require('../daos/items');
+const middleware = require('./middleware');
 
-const isAdmin = async(req,res,next) => {
-  if(req.user.roles.includes('admin')) {
-      next();
-  }
-  else{
-      res.sendStatus(403);
-  }
+// const isAdmin = async(req,res,next) => {
+//   if(req.user.roles.includes('admin')) {
+//       next();
+//   }
+//   else{
+//       res.sendStatus(403);
+//   }
 
-};
+// };
 
-const isLoggedIn = async(req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.session.oldUrl = req.url;
-    res.redirect('/user/signin');
-  }
+// const isLoggedIn = async(req, res, next) => {
+//     if (req.isAuthenticated()) {
+//         return next();
+//     }
+//     req.session.oldUrl = req.url;
+//     res.redirect('/user/signin');
+//   }
   
 
 
@@ -31,7 +32,7 @@ router.get("/", async(req,res,next) => {
 
 
 
-router.get("/items", isLoggedIn, async(req,res,next)=>{
+router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
 
     if(req.user.roles.includes('admin')){
         let successMsg = req.flash('success')[0];
@@ -47,7 +48,7 @@ router.get("/items", isLoggedIn, async(req,res,next)=>{
 })
 
 
-router.get("/orders", isLoggedIn, async(req,res,next)=>{
+router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
 
     if(req.user.roles.includes('admin')){
         res.render('admin-layout/orders')

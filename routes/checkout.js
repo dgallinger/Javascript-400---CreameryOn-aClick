@@ -3,29 +3,30 @@ require("dotenv").config(".env");
 const { Router } = require("express");
 const router = Router();
 const csrf = require('csurf');
-const Order= require('../models/cart');
+const Cart = require('../models/cart');
+const middleware = require('./middleware');
 
 
 const  csrfProtection = csrf();
 router.use(csrfProtection);
 
-// /checking if user is loggedin 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.session.oldUrl = req.url;
-    res.redirect('/user/signin');
-}
+// // /checking if user is loggedin 
+// function isLoggedIn(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return next();
+//     }
+//     req.session.oldUrl = req.url;
+//     res.redirect('/user/signin');
+// }
 
 
 
 
-router.get("/", isLoggedIn, async(req,res,next)=> {
+router.get("/", middleware.isLoggedIn, async(req,res,next)=> {
     if(!req.session.cart){
         return res.redirect('/shopping-cart');
     }
-    let cart = await new Order(req.session.cart);
+    let cart = await new Cart(req.session.cart);
     res.render('shop/checkout', {total: cart.totalPrice});
 
 

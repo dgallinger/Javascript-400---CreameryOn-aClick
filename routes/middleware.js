@@ -20,6 +20,25 @@ module.exports.isLoggedIn = (async (req, res, next) => {
   }
 });
 
+
+
+module.exports.notLoggedIn= (async (req, res, next) => {
+  try
+  {  
+    if (!req.isAuthenticated()) {
+        next();
+    }
+    else{
+        res.redirect('/');
+    }
+  }
+  catch(err)
+  {
+    next(err)
+  }
+});
+
+
 /*
  * Middleware to verify authenticated user is in Admin role.
  * + You'll want to write an isAdmin middleware function that can be reused. 

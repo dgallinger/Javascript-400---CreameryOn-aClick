@@ -2,6 +2,7 @@ const { Router }= require('express');
 const router = Router();
 const csrf = require('csurf');
 const passport = require('passport');
+const middleware = require('./middleware');
 
 
 
@@ -11,44 +12,35 @@ const  csrfProtection = csrf();
 router.use(csrfProtection);
 
 
-//checking if user is loggedin 
-const isLoggedIn= async(req, res, next) => {
+// //checking if user is loggedin 
+// const isLoggedIn= async(req, res, next) => {
     
-    if (req.isAuthenticated()) {
+//     if (req.isAuthenticated()) {
 
-        next();
-    }
-    else{
-        res.redirect('/');
-    }
-}
+//         next();
+//     }
+//     else{
+//         res.redirect('/');
+//     }
+// }
 
 
-const notLoggedIn= async(req, res, next) => {
-    
-    if (!req.isAuthenticated()) {
-        next();
-    }
-    else{
-        res.redirect('/');
-    }
-}
 
-const isAdmin = async(req,res,next) => {
-    if(req.user.roles.includes('admin')) {
-        next();
-    }
-    else{
-        res.sendStatus(403);
-    }
+// const isAdmin = async(req,res,next) => {
+//     if(req.user.roles.includes('admin')) {
+//         next();
+//     }
+//     else{
+//         res.sendStatus(403);
+//     }
 
-};
+// };
 // redirecting loggedin user
-router.get('/profile', isLoggedIn, async(req,res,next) => {
+router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
     res.render('user/profile');
   })
 
-router.get('/logout', isLoggedIn,async(req,res,next) => {
+router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.logout();
     req.session.cart = null;
     res.redirect('/');
@@ -58,7 +50,7 @@ router.get('/logout', isLoggedIn,async(req,res,next) => {
  // redirecting not loggedin user
 
  
- router.use('/', notLoggedIn, async(req,res,next) => {
+ router.use('/', middleware.notLoggedIn, async(req,res,next) => {
      next();
  });
 
