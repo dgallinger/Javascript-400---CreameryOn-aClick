@@ -5,11 +5,14 @@ module.exports = { roleNameAdmin }
 /* 
  * Middleware to enforce authentication on protected routes.
  */
-module.exports.isUserAuthenticated = (async (req, res, next) => { 
+module.exports.isLoggedIn = (async (req, res, next) => { 
   try
   {
-    //todo
-    //next();
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect('/');
+    }
   }
   catch(err)
   {
@@ -24,9 +27,9 @@ module.exports.isUserAuthenticated = (async (req, res, next) => {
  */
 module.exports.isAdmin = (async (req, res, next) => {
   // assumes Request.user exists, so use after authentication middleware
-  // if (req.user.roles.includes(roleNameAdmin)) { 
-  //   next(); 
-  // } else { 
-  //   res.sendStatus(403); // 403 Forbidden 
-  // }
+  if (req.user.roles.includes(roleNameAdmin)) {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
 });

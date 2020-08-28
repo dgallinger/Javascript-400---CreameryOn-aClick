@@ -1,14 +1,9 @@
 const { Router } = require("express");
 const router = Router();
 const Item = require('../models/items');
-<<<<<<< HEAD
 const Cart= require('../models/cart')
-=======
-const Order= require('../models/cart')
 const orderDAO = require('../daos/order');
->>>>>>> 7960b05f4df913a89fd63fce89ea562680617f34
-
-
+const middleware = require('./middleware');
 
 
 router.get("/:id", async (req,res,next) => {
