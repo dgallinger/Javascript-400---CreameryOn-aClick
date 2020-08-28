@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const User = require('../models/users');
 
+const bcrypt = require('bcrypt');
+
 
 //signUp
 
@@ -56,7 +58,7 @@ module.exports.changePassword = async (email, password) => {
         return false;
     }else {
 
-      const updatedPassword = await bcrypt.hash(password, salt);
+      const updatedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(10)); 
       const updatedUser = await User.update({ email: email },  { password : updatedPassword });
       return updatedUser;
     } 

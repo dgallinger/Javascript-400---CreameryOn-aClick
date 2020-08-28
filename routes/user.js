@@ -1,21 +1,20 @@
 const { Router }= require('express');
 const router = Router();
-// const csrf = require('csurf');
+const csrf = require('csurf');
 const passport = require('passport');
 
-const userDAO = require('../daos/users');
+
 
 //csrf protection using as a middleware
 
-// const  csrfProtection = csrf();
-// router.use(csrfProtection);
+const  csrfProtection = csrf();
+router.use(csrfProtection);
 
 
 //checking if user is loggedin 
 const isLoggedIn= async(req, res, next) => {
     
     if (req.isAuthenticated()) {
-
 
         next();
     }
@@ -68,7 +67,7 @@ router.get('/logout', isLoggedIn,async(req,res,next) => {
 
 router.get('/signup', async(req,res,next) => {
     const messages = req.flash('error');
-    res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
+    res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -92,7 +91,7 @@ router.post('/signup', passport.authenticate('local.signup',{
 
 router.get('/signin', async (req, res, next) => {
     const messages = req.flash('error');
-    res.render('user/signin', {  messages: messages, hasErrors: messages.length > 0});
+    res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
     
     req.session.cart;
   });
@@ -103,9 +102,7 @@ router.post('/signin', passport.authenticate('local.signin', {
     failureFlash: true
   
   }), function (req, res, next) {
-    admin = req.user.roles
-    console.log("Admin:", admin)
-    console.log(req.session.oldUrl)
+    admin = req.user.roles;
     if (req.session.oldUrl) {
         // let oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
@@ -114,16 +111,11 @@ router.post('/signin', passport.authenticate('local.signin', {
     } else{ 
         if (admin[0] == "admin")
         {
-        console.log("inside-else if")
-        console.log(req.user.roles)
         res.redirect('/admin');
         }
-
         else{
-    
-        console.log("inside-else ")
         res.redirect('/user/profile');
-        console.log(req.user.roles)
+        
     }}
   });
 
