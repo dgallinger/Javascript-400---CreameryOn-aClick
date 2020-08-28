@@ -1,0 +1,30 @@
+ 
+ <h2 style = "text-align: center">Admin Page</h2>
+<h1 style="text-align : center;">Welcome to Creamery-on-a-Click</h1>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+     <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+            {{ successMsg }}
+        </div>   
+    </div>
+</div>
+
+ 
+<div {
+  padding-top: 50px;
+  padding-right: 30px;
+  padding-bottom: 50px;
+  padding-left: 80px;
+}>
+<ul>
+    <h3>Check all items : </h3>
+    <span><a  href="admin/items" class="btn btn-success" role = "button">All Items</a></span>
+    <span role="separator" class="divider"></span>
+    <h3>Check all orders : </h3>
+    <span><a href="admin/orders" class="btn btn-success" role = "button">All Orders</a> </span>
+</ul>
+</div>
+
+
+

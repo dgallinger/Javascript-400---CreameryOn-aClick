@@ -1,37 +1,21 @@
 const { Router }= require('express');
 const router = Router();
-// const Item = require('../models/items');
+const middleware = require('./middleware');
+
 
 const itemDAO = require('../daos/items');
 
-const isAdmin = async(req,res,next) => {
-  if(req.user.roles.includes('admin')) {
-      next();
-  }
-  else{
-      res.sendStatus(403);
-  }
-
-};
-
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-      return next();
-  }
-  req.session.oldUrl = req.url;
-  res.redirect('/user/signin');
-}
 
 // Get home page
 
 
 
 router.get("/", async (req,res,next) => {
-  var successMsg = req.flash('success')[0];
-  let itemChunks = [];
-  await itemDAO.getAll(itemChunks);
   
+  let successMsg = req.flash('success')[0];
+
+  let itemChunks = [];
+   itemsChunks = await itemDAO.getAll(itemChunks);
   res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
   
 });
@@ -40,7 +24,7 @@ router.get("/", async (req,res,next) => {
 // create items
 
 
-router.post("/",  isLoggedIn, isAdmin, async (req,res,next)=>{
+router.post("/",  middleware.isLoggedIn, isAdmin, async (req,res,next)=>{
   const itemTitle = req.body.title;
   const itemPrice = req.body.price;
   const itemDescription = req.body.description;
@@ -62,13 +46,13 @@ router.post("/",  isLoggedIn, isAdmin, async (req,res,next)=>{
   }
 });
 
-//delete items
+
 
 
 
 //update items
 
-router.put("/:id", isLoggedIn, isAdmin, async(req,res,next) => {
+router.put("/:id", middleware.isLoggedIn, isAdmin, async(req,res,next) => {
   const itemId = req.params.id;
   const itemTitle = req.body.title;
   const itemPrice = req.body.price;
@@ -80,8 +64,11 @@ router.put("/:id", isLoggedIn, isAdmin, async(req,res,next) => {
   const updatedItem = await itemDAO.updateItem(itemId, itemTitle, itemPrice, itemDescription, itemStory, itemSize, itemImagePath);
   if(updatedItem){
       res.json(updatedItem);
+      successMsg = req.flash('success', 'Item updated');
+      res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
   }else{
-      res.status(404).send("Item has not been updated"); 
+      res.redirect('admin-layout/items')
+
   }
 
 })
@@ -90,20 +77,12 @@ router.put("/:id", isLoggedIn, isAdmin, async(req,res,next) => {
 
 router.delete("/:id", async (req, res, next) => {
   const itemId = req.params.id;
-  try {
-    const success = await itemDAO.deleteById(itemId);
-    res.sendStatus(success ? 200 : 400);
-  } catch(e) {
-    res.status(500).send(e.message);
-  }
+  const success = await itemDAO.deleteById(itemId);
+  res.sendStatus(success ? 200 : 400);
+  successMsg= req.flash('success', 'Item has been successfully deleted!');
+  res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
+ 
 });
-
-
-
-
-
-
-
 
 
 module.exports = router;

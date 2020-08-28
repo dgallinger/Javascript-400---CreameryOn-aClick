@@ -3,7 +3,7 @@ const router = Router();
 
 const userDAO = require('../daos/users');
 
-router.get('/', function(req,res,next){
+router.get('/', async(req,res,next) =>{
    
     const messages = req.flash('error');
     res.render('user/change-password',{  messages: messages, hasErrors: messages.length>0 })
@@ -22,7 +22,7 @@ router.post("/",  async(req,res)=>{
 	        req.flash('success', 'password changed!');
             res.redirect('/');
 	    } else {
-            console.log("Failure")
+            
 	        res.redirect('/password');
 	        
     }

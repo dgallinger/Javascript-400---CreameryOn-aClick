@@ -1,8 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const Item = require('../models/items');
-const Order= require('../models/cart')
-const orderDAO = require('../daos/order');
+const Cart= require('../models/cart')
 
 
 
@@ -10,7 +9,7 @@ const orderDAO = require('../daos/order');
 router.get("/:id", async (req,res,next) => {
     
     const itemId = req.params.id; 
-    let cart = await new Order(req.session.cart ? req.session.cart: {});
+    let cart = await new Cart(req.session.cart ? req.session.cart: {});
 
     Item.findById(itemId, function(err, item){
         if (err){

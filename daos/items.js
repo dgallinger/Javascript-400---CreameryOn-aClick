@@ -30,18 +30,18 @@ module.exports.create = async (title, price, imagePath, description, story, size
       
  };
 
-
- 
-
  module.exports.getAll = async(itemChunks) => {
-    Item.find(function(err, docs) {
-        
+
+     
+    const allItems = await Item.find(function(err, docs) {
+
         let chunkSize = 3;
         for(let i=0; i < docs.length; i+= chunkSize){
           itemChunks.push(docs.slice(i, i+ chunkSize));
         }
-        return itemChunks
+        return itemChunks;
  })
+ return allItems;
 };
 
 
@@ -67,16 +67,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
   if (!mongoose.Types.ObjectId.isValid(itemId)) {
     return false;
   }
-  await Book.deleteOne({ _id: itemId });
+  await Item.deleteOne({ _id: itemId });
   return true;
 }
 
-
-
-
-
-
-
-
-class BadDataError extends Error {};
-module.exports.BadDataError = BadDataError;
