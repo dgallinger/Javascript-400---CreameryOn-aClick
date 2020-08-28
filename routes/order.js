@@ -16,6 +16,7 @@ router.get("/:id", async (req,res,next) => {
             return res.redirect('/');
         }
         cart.add(item, item.id);
+        req.flash('success', 'Successfully added to cart!');
         req.session.cart = cart;
         res.redirect('/');
     });

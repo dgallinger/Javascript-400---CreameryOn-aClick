@@ -2,7 +2,12 @@ require("dotenv").config(".env");
 
 const { Router } = require("express");
 const router = Router();
+const csrf = require('csurf');
 const Order= require('../models/cart');
+
+
+const  csrfProtection = csrf();
+router.use(csrfProtection);
 
 // /checking if user is loggedin 
 function isLoggedIn(req, res, next) {
@@ -22,6 +27,8 @@ router.get("/", isLoggedIn, async(req,res,next)=> {
     }
     let cart = await new Order(req.session.cart);
     res.render('shop/checkout', {total: cart.totalPrice});
+    
+
 
 });
 

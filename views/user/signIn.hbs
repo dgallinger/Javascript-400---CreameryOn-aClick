@@ -17,9 +17,9 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" class="form-control">
             </div>
-            <input type = "hidden" name = "_csrf" value = "{{ csrfToken }}">
+            {{!-- <input type = "hidden" name = "_csrf" value = "{{ csrfToken }}"> --}}
             <button type="submit" class="btn btn-primary">Sign In</button>
-             <a href="/changepassword" >change password</a>
+             <a href="/changepassword"> Change Password </a>
              
         </form>
         <p>Dont't have an account? <a href="/user/signup">Sign Up!</a></p>

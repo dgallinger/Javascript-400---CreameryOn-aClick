@@ -1,5 +1,17 @@
 // retrive a previous card and modify it 
 
+const mongoose = require('mongoose');
+
+
+const cartSchema =  new mongoose.Schema({
+    
+    title: {type: String, required: true},
+    totalPrice: {type: Number, required: true},
+    totalQty:  {type: Number, required: true}
+});
+
+module.exports = mongoose.model('cart', cartSchema);
+
 
 module.exports = function Cart(oldCart) {
     this.items= oldCart.items || {};

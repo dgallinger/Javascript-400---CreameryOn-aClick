@@ -13,6 +13,7 @@ router.get("/",async(req,res,next) => {
     }
     let cart = await new Order(req.session.cart);
     res.render('shop/shopping-cart', {items: cart.generateArray(), totalPrice: cart.totalPrice});
+    
 })
 
 
