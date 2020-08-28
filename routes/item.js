@@ -15,7 +15,7 @@ const isAdmin = async(req,res,next) => {
 };
 
 
-function isLoggedIn(req, res, next) {
+const isLoggedIn = async(req, res, next) => {
   if (req.isAuthenticated()) {
       return next();
   }
@@ -28,7 +28,7 @@ function isLoggedIn(req, res, next) {
 
 
 router.get("/", async (req,res,next) => {
-  var successMsg = req.flash('success')[0];
+  let successMsg = req.flash('success')[0];
   let itemChunks = [];
   await itemDAO.getAll(itemChunks);
   

@@ -27,7 +27,6 @@ router.get("/", isLoggedIn, async(req,res,next)=> {
     }
     let cart = await new Order(req.session.cart);
     res.render('shop/checkout', {total: cart.totalPrice});
-    
 
 
 });
