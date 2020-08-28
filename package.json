@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
-    "start": "nodemon -e js,json, mustache index.js",
+    "start": "node index.js",
     "test": "jest --coverage --runInBand",
     "tdd": "jest --watch --runInBand",
     "clean": "rm -rf node_modules"
@@ -26,12 +29,13 @@
     "mongoose": "^5.9.21",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "stripe": "^4.7.0"
+    "stripe": "^4.7.0",
+    "handlebars": "^4.7.6"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
     "cheerio": "^1.0.0-rc.3",
-    "handlebars": "^4.5.0",
+    "handlebars": "^4.7.6",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
