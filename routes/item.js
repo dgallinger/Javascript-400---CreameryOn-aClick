@@ -28,12 +28,17 @@ const isLoggedIn = async(req, res, next) => {
 
 
 router.get("/", async (req,res,next) => {
+  try
+  {
   let successMsg = req.flash('success')[0];
   let itemChunks = [];
   await itemDAO.getAll(itemChunks);
   
-  res.render('shop/index', { title: 'Creamery-On-aClick',  mdstring: process.env.MONGO_CONNECTION_STRING, items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
   
+  res.render('shop/index', { title: 'Creamery-On-aClick',  mdstring: process.env.MONGO_CONNECTION_STRING, items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
+}catch(err){
+  console.log(err);
+}
 });
 
 
