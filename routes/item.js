@@ -33,7 +33,7 @@ router.get("/", async (req,res,next) => {
 // create items
 
 
-router.post("/",  middleware.isLoggedIn, isAdmin, async (req,res,next)=>{
+router.post("/",  middleware.isLoggedIn, middleware.isAdmin, async (req,res,next)=>{
   const itemTitle = req.body.title;
   const itemPrice = req.body.price;
   const itemDescription = req.body.description;
@@ -61,7 +61,7 @@ router.post("/",  middleware.isLoggedIn, isAdmin, async (req,res,next)=>{
 
 //update items
 
-router.put("/:id", middleware.isLoggedIn, isAdmin, async(req,res,next) => {
+router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, async(req,res,next) => {
   const itemId = req.params.id;
   const itemTitle = req.body.title;
   const itemPrice = req.body.price;

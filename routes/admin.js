@@ -26,14 +26,14 @@ const middleware = require('./middleware');
 
 
 router.get("/", async(req,res,next) => {
-    console.log("Inside get admin area")
+    
     res.render('admin-layout/admin')
 })
 
 
 
 router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
-    console.log("Inside get admin items")
+    
 
     if(req.user.roles.includes('admin')){
         let successMsg = req.flash('success')[0];
