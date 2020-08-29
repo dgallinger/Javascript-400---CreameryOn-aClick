@@ -19,7 +19,7 @@ User.findOne({'email': email},function (err, user){
     var newUser = new User();
     newUser.email = email;
     newUser.password = newUser.encryptPassword(password);
-    newUser.roles= ['admin']
+    newUser.roles= ['user']
     newUser.save(function(err, result){
         if (err){
             return done(err);
