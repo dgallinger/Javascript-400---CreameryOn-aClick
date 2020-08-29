@@ -15,7 +15,7 @@ router.get("/", async (req,res,next) => {
   let successMsg = req.flash('success')[0];
 
   let itemChunks = [];
-   itemsChunks = await itemDAO.getAll(itemChunks);
+  itemsChunks = await itemDAO.getAll(itemChunks);
   res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
   
 });

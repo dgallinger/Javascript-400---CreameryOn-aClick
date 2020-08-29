@@ -1,9 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 
-
-
-
 router.use("/user", require("./user"));
 router.use("/order", require("./order"));
 router.use("/about", require("./about"));
