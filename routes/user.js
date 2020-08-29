@@ -11,7 +11,8 @@ const middleware = require('./middleware');
 const  csrfProtection = csrf();
 router.use(csrfProtection);
 
-redirecting loggedin user
+// redirecting loggedin user
+
 router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
     res.render('user/profile');
   })
@@ -21,7 +22,6 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.session.cart = null;
     res.redirect('/');
 })
-
 
  // redirecting not loggedin user
 

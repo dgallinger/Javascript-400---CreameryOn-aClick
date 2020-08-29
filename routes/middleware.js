@@ -5,7 +5,7 @@ module.exports = { roleNameAdmin }
 /* 
  * Middleware to enforce authentication on protected routes.
  */
-module.exports.isUserAuthenticated = (async (req, res, next) => { 
+module.exports.isLoggedIn = (async (req, res, next) => { 
   try
   {
     if (req.isAuthenticated()) {

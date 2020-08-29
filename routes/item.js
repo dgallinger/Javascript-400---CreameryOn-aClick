@@ -6,12 +6,21 @@ const middleware = require('./middleware');
 const itemDAO = require('../daos/items');
 
 
+// const isLoggedIn = async(req, res, next) => {
+//   if (req.isAuthenticated()) {
+//       return next();
+//   }
+//   req.session.oldUrl = req.url;
+//   res.redirect('/user/signin');
+// }
+
+
 // Get home page
 
 
 
 router.get("/", async (req,res,next) => {
-  
+
   let successMsg = req.flash('success')[0];
 
   let itemChunks = [];

@@ -31,8 +31,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
  };
 
  module.exports.getAll = async(itemChunks) => {
-
-    const allItems = await Item.find(function(err, docs) {
+    const allItems = Item.find(function(err, docs) {
 
         let chunkSize = 3;
         for(let i=0; i < docs.length; i+= chunkSize){
