@@ -34,6 +34,7 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 //get signup
 
 router.get('/signup', async(req,res,next) => {
+    console.log("Inside get userSignup")
     const messages = req.flash('error');
     res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
   
@@ -58,7 +59,9 @@ router.post('/signup', passport.authenticate('local.signup',{
   
 
 router.get('/signin', async (req, res, next) => {
+    console.log("Inside get userSignin")
     const messages = req.flash('error');
+    
     res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
     
     req.session.cart;

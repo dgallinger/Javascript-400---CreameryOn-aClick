@@ -37,9 +37,12 @@ module.exports.create = async (title, price, imagePath, description, story, size
         for(let i=0; i < docs.length; i+= chunkSize){
           itemChunks.push(docs.slice(i, i+ chunkSize));
         }
+
         return itemChunks;
  })
- return allItems;
+    return allItems;
+
+        
 };
 
 

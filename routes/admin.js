@@ -26,6 +26,7 @@ const middleware = require('./middleware');
 
 
 router.get("/", async(req,res,next) => {
+    console.log("Inside get admin area")
     
     res.render('admin-layout/admin')
 })
