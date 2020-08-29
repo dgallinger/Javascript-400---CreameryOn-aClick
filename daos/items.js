@@ -33,7 +33,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
 
  
 
- module.exports.getAll = async() => {
+ module.exports.getAll = () => {
      let itemChunks= [];
     //  console.log(itemChunks);
      console.log("inside get all before adding items");
