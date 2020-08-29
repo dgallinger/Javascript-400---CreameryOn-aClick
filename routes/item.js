@@ -32,7 +32,7 @@ router.get("/", async (req,res,next) => {
   let itemChunks = [];
   await itemDAO.getAll(itemChunks);
   
-  res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
+  res.render('shop/index', { title: 'Creamery-On-aClick',  mdstring: process.env.MONGO_CONNECTION_STRING, items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
   
 });
 
@@ -62,7 +62,7 @@ router.post("/",  isLoggedIn, isAdmin, async (req,res,next)=>{
   }
 });
 
-//delete items
+
 
 
 
@@ -80,8 +80,11 @@ router.put("/:id", isLoggedIn, isAdmin, async(req,res,next) => {
   const updatedItem = await itemDAO.updateItem(itemId, itemTitle, itemPrice, itemDescription, itemStory, itemSize, itemImagePath);
   if(updatedItem){
       res.json(updatedItem);
+      successMsg = req.flash('success', 'Item updated');
+      res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
   }else{
-      res.status(404).send("Item has not been updated"); 
+      res.redirect('admin-layout/items')
+
   }
 
 })
@@ -90,20 +93,12 @@ router.put("/:id", isLoggedIn, isAdmin, async(req,res,next) => {
 
 router.delete("/:id", async (req, res, next) => {
   const itemId = req.params.id;
-  try {
-    const success = await itemDAO.deleteById(itemId);
-    res.sendStatus(success ? 200 : 400);
-  } catch(e) {
-    res.status(500).send(e.message);
-  }
+  const success = await itemDAO.deleteById(itemId);
+  res.sendStatus(success ? 200 : 400);
+  successMsg= req.flash('success', 'Item has been successfully deleted!');
+  res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
+ 
 });
-
-
-
-
-
-
-
 
 
 module.exports = router;

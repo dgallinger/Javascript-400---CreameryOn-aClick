@@ -22,7 +22,7 @@ router.post("/",  async(req,res)=>{
 	        req.flash('success', 'password changed!');
             res.redirect('/');
 	    } else {
-            console.log("Failure")
+            
 	        res.redirect('/password');
 	        
     }

@@ -11,30 +11,6 @@ const middleware = require('./middleware');
 const  csrfProtection = csrf();
 router.use(csrfProtection);
 
-
-// //checking if user is loggedin 
-// const isLoggedIn= async(req, res, next) => {
-    
-//     if (req.isAuthenticated()) {
-
-//         next();
-//     }
-//     else{
-//         res.redirect('/');
-//     }
-// }
-
-
-
-// const isAdmin = async(req,res,next) => {
-//     if(req.user.roles.includes('admin')) {
-//         next();
-//     }
-//     else{
-//         res.sendStatus(403);
-//     }
-
-// };
 // redirecting loggedin user
 router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
     res.render('user/profile');
