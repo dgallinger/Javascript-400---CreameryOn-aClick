@@ -34,14 +34,15 @@ module.exports.create = async (title, price, imagePath, description, story, size
  
 
  module.exports.getAll = async(itemChunks) => {
-    Item.find(function(err, docs) {
+    allItems = Item.find(function(err, docs) {
         
         let chunkSize = 3;
         for(let i=0; i < docs.length; i+= chunkSize){
           itemChunks.push(docs.slice(i, i+ chunkSize));
         }
-        return itemChunks
+        return itemChunks;
  })
+ return allItems;
 };
 
 
