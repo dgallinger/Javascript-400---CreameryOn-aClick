@@ -33,11 +33,11 @@ module.exports.create = async (title, price, imagePath, description, story, size
 
  
 
- module.exports.getAll = () => {
+ module.exports.getAll = async() => {
      let itemChunks= [];
     //  console.log(itemChunks);
      console.log("inside get all before adding items");
-    Item.find(function(err, docs) {
+    const allItems = await Item.find(function(err, docs) {
         console.log("Inside find");
         console.log(err);
         let chunkSize = 3;
@@ -46,8 +46,9 @@ module.exports.create = async (title, price, imagePath, description, story, size
         }
         console.log(itemChunks);
         
-        return itemChunks
+        return itemChunks;
  })
+    return allItems;
 };
 
 
