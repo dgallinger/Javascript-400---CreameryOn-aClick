@@ -37,6 +37,7 @@ router.use(async (err, req, res, next) => {
   }
   else 
   {
+    console.log(err);
     res.status(500).send('An unexpected error occurred.')  
   } 
 });
