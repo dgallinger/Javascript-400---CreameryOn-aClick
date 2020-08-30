@@ -166,11 +166,9 @@ const mapReqItems = async (reqItems) => {
  * Filter Items result set by the item ids contained in the order
  */
 const getDBItems = async (items) => {
-    const result = (await Item.find( { _id: { $in: items.map(it => it.itemId) } }))
-      .map(function(doc) { return { id: doc._id.toString(), price: doc.price }; });
-
-      console.log("PRINTING GETDBITEMS");
-      console.log(result);
+    const result = (await Item.find( { _id: { $in: items.map(it => it.itemId) } 
+  })) .map(function(doc) { return { id: doc._id.toString(), price: doc.price }; 
+  });
     return result;
 }
 
