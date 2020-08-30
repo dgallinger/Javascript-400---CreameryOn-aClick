@@ -9,7 +9,6 @@ const wishlistCart= require('../allCarts/wishlistCart')
 router.get('/:id', async(req, res, next) => {
     var itemId = req.params.id;
     if(req.session.wishlistcart){
-        console.log("insidewishlist")
         const cart = new wishlistCart(req.session.wishlistcart  ? req.session.wishlistcart : {});   
         cart.removeItem(itemId);
         req.session.wishlistcart = cart;

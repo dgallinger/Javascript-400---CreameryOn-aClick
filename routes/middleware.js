@@ -39,13 +39,8 @@ module.exports.notLoggedIn= (async (req, res, next) => {
 });
 
 
-/*
- * Middleware to verify authenticated user is in Admin role.
- * + You'll want to write an isAdmin middleware function that can be reused. 
- * + If the user making the request is not an admin it should respond with a 403 Forbidden error.
- */
 module.exports.isAdmin = (async (req, res, next) => {
-  // assumes Request.user exists, so use after authentication middleware
+  
   if (req.user.roles.includes(roleNameAdmin)) {
     next();
   } else {

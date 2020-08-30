@@ -13,30 +13,21 @@ router.get("/",  async(req,res,next)=> {
     let cart = await new Cart(req.session.wishlistcart);
     res.render('shop/wishlist');
 
-
 });
 
 
 router.post('/', async function(req, res, next) {
 
-    
    const cart = new Cart(req.session.wishlistcart);
-
    const cartItems = cart.getItems();
-   console.log("Printing cart items",cartItems)
-
-   
    const itemObjs = cartItems.map(function(cartItem) {
         return {
             itemId: cartItem.item._id,  
         }
    });
-   console.log("Printing item Objs", itemObjs)
     const name =  req.body.name;
     const user = req.user;
-   
     const wishlist = await wishlistDAO.create(user,itemObjs, name);
-    console.log("Wishlist",wishlist);
     req.flash('success', 'Successfully added items to wishlist!');    
     req.session.wishlistcart = null;
     res.redirect('/');

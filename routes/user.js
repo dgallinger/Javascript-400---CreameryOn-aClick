@@ -25,15 +25,8 @@ router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
 });
 
 router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
- 
   userId = req.user.id;
-  console.log(userId);
   wishlists = await wishlistDAO.getAllByUserId(userId);
-  console.log(wishlists);
-  console.log(wishlists[0].name);
-  console.log(wishlists[0].items[0]);
-  console.log(wishlists[0].items[1]);
-
   res.render('user/wishlists', {wishlists: wishlists});
 
 
