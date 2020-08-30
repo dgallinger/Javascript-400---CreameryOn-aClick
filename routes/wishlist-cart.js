@@ -6,10 +6,11 @@ const Cart= require('../allCarts/wishlistCart')
 
 router.get("/", async(req,res,next) => {
     
-    let cart = await new Cart(req.session.wishlistcart);
     if(!req.session.wishlistcart){
         return res.render('shop/wishlist-cart', {items: null});
     }
+    let cart = await new Cart(req.session.wishlistcart);
+    
     res.render('shop/wishlist-cart', {items: cart.getItems()});
     
 })
