@@ -1,16 +1,4 @@
-// retrive a previous card and modify it 
-
-const mongoose = require('mongoose');
-
-
-const cartSchema =  new mongoose.Schema({
-    
-    title: {type: String, required: true},
-    totalPrice: {type: Number, required: true},
-    totalQty:  {type: Number, required: true}
-});
-
-module.exports = mongoose.model('cart', cartSchema);
+//All cart functions
 
 
 module.exports = function Cart(oldCart) {
@@ -47,7 +35,7 @@ module.exports = function Cart(oldCart) {
         delete this.items[id];
     };
 
-    this.generateArray = function () {
+    this.getItems = function () {
         let arr = [];
         for (let id in this.items) {
             arr.push(this.items[id]);

@@ -4,6 +4,10 @@ const csrf = require('csurf');
 const passport = require('passport');
 const middleware = require('./middleware');
 
+const Order= require('../models/order')
+const orderDAO = require('../daos/order');
+const Cart= require('../models/cart')
+
 
 
 //csrf protection using as a middleware
@@ -13,9 +17,36 @@ router.use(csrfProtection);
 
 // redirecting loggedin user
 
+// router.get('/profile', middleware.isLoggedIn, function(req,res,next) {
+//   //get order by user
+//   Order.find({user: req.user}, function(err, orders) {
+//     if (err) {
+//         return res.write('Error!');
+//     }
+//     var cart;
+//     orders.forEach(function(order) {
+//         cart = new Cart(order.cart);
+//         order.items = cart.generateArray();
+//     });
+//     console.log("my orders", orders);
+//     res.render('user/profile', { orders: orders });
+// });
+//   })
+
+
+
+
+
 router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
-    res.render('user/profile');
-  })
+  userId = req.user.id;
+  orders = await orderDAO.getAllByUserId(userId);
+  
+  res.render('user/profile', { orders: orders });
+
+
+});
+
+
 
 router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.logout();
@@ -34,7 +65,7 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 //get signup
 
 router.get('/signup', async(req,res,next) => {
-    console.log("Inside get userSignup")
+    
     const messages = req.flash('error');
     res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
   
@@ -59,7 +90,7 @@ router.post('/signup', passport.authenticate('local.signup',{
   
 
 router.get('/signin', async (req, res, next) => {
-    console.log("Inside get userSignin")
+    
     const messages = req.flash('error');
     
     res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});

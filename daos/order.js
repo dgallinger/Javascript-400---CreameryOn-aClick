@@ -34,28 +34,30 @@ const aggregationGetOrder = [
 ];
 
 
-// module.exports.create = async(userId, itemObjs) => {
-//   const mappedItems = await mapReqItems(itemObjs);
-//   const itemsResultSet = await getDBItems(mappedItems);
-//   const areItemsValid = await areValid(itemObjs, itemsResultSet);
+module.exports.create = async(userId, itemObjs, address, recipient) => {
 
-//   if (!areItemsValid) {
-//     throw new BadDataError('invalid order item');
-//   }
+  const mappedItems = await mapReqItems(itemObjs);
+  const itemsResultSet = await getDBItems(mappedItems);
+  const areItemsValid = await areValid(itemObjs, itemsResultSet);
 
-//   const total = await computeTotal(itemObjs, itemsResultSet);
+  if (!areItemsValid) {
+    throw new BadDataError('invalid order item');
+  }
 
-//   const newOrder = {
-//     userId,
-//     items: mappedItems, //[{itemId, quantity}]
-//     total,
-//     status: 'New',
-//     //created=Date.now
-//     //updated=null
-//   };
-//   const created = await Order.create(newOrder);
-//   return created;
-// }
+  const total = await computeTotal(itemObjs, itemsResultSet);
+
+  const newOrder = {
+    userId,
+    items: mappedItems, 
+    total,
+    status: 'New',
+    address,
+    recipient
+    
+  };
+  const created = await Order.create(newOrder);
+  return created;
+}
 
 
 module.exports.getAll = async() => {
@@ -118,7 +120,7 @@ module.exports.cancelById = async (orderId) => {
 /*
  * Validate order items.
  */
-const areValid = async(itemObjs, itemsResultSet) => {
+const areValid = async(itemObjs, itemsResultSet, address) => {
   let isValid = true;
 
   // if order item is not found within the Items result set, itemObjs is invalid
@@ -137,15 +139,15 @@ const areValid = async(itemObjs, itemsResultSet) => {
 /*
  * Compute order total.
  */
-// const computeTotal = async(itemObjs, itemsResultSet) => {
-//   // iterate the order items and compute total
-//   let total = 0;
-//   for(let i = 0; i < itemObjs.length; i++) {
-//     const foundItem = itemsResultSet.find(doc => doc.id === itemObjs[i].itemId);
-//     total += foundItem.price * itemObjs[i].quantity;
-//   }
-//   return total; 
-// }
+const computeTotal = async(itemObjs, itemsResultSet) => {
+  // iterate the order items and compute total
+  let total = 0;
+  for(let i = 0; i < itemObjs.length; i++) {
+    const foundItem = itemsResultSet.find(doc => doc.id === itemObjs[i].itemId);
+    total += foundItem.price * itemObjs[i].quantity;
+  }
+  return total; 
+}
 
 /*
  * Map order items array so itemId is of type ObjectId
@@ -157,6 +159,8 @@ const mapReqItems = async (reqItems) => {
       quantity: orderItem.quantity
     }
   });
+  console.log("PRINTING MAP REQITEMS");
+  console.log(items);
   return items;
 }
 
@@ -167,6 +171,8 @@ const getDBItems = async (items) => {
     const result = (await Item.find( { _id: { $in: items.map(it => it.itemId) } }))
       .map(function(doc) { return { id: doc._id.toString(), price: doc.price }; });
 
+      console.log("PRINTING GETDBITEMS");
+      console.log(result);
     return result;
 }
 

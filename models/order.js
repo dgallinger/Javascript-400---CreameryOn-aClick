@@ -1,17 +1,8 @@
 const mongoose = require('mongoose');
 
 
-// const orderSchema =  new mongoose.Schema({
-//     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-//     cart: {type: Object, required: true},
-//     status:{ type: [String], required: true }
-    
-// });
-
 const orderSchema = new mongoose.Schema({
-  // PK: _id
-
-  // FK to User
+  
   userId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'users', 
@@ -20,9 +11,7 @@ const orderSchema = new mongoose.Schema({
 
   // Array of Item Detail
   items: [{
-    // PK: _id
-
-    // FK to Item
+    
     itemId: {
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'items',
@@ -48,6 +37,12 @@ const orderSchema = new mongoose.Schema({
     enum: ['New', 'Packed', 'Shipped', 'Delivered', 'Cancelled'],
     required: true,
   }, 
+  
+  //Delivery Address
+  address: {type: String, required: true},
+
+  //Recipient Name
+  recipient: {type: String, required: true},
 
   // Order create date
   created: {
@@ -59,7 +54,8 @@ const orderSchema = new mongoose.Schema({
   updated: {
     type: Date,
     default: null,
-  }
+  },
+
 });
 
 

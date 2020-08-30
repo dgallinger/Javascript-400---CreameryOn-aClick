@@ -2,13 +2,10 @@ require("dotenv").config(".env");
 
 const { Router } = require("express");
 const router = Router();
-const csrf = require('csurf');
 const Cart = require('../models/cart');
+const orderDAO = require('../daos/order.js')
 
 
-
-const  csrfProtection = csrf();
-router.use(csrfProtection);
 
 // /checking if user is loggedin 
 function isLoggedIn(req, res, next) {
@@ -35,9 +32,37 @@ router.get("/", isLoggedIn, async(req,res,next)=> {
 
 
 
+router.post('/', isLoggedIn, async function(req, res, next) {
+
+    if (!req.session.cart) {
+        return res.redirect('/shopping-cart');
+    }
+   const cart = new Cart(req.session.cart);
+
+   const cartItems = cart.getItems();
+   const itemObjs = cartItems.map(function(cartItem) {
+        return {
+            itemId: cartItem.item._id,
+            quantity: cartItem.qty
+        }
+   });
+    const address =  req.body.address;
+    const recipient = req.body.recipient;
+    const user = req.user;
+   
+    const order = await orderDAO.create(user,itemObjs, address, recipient);
+    console.log(order);
+    req.flash('success', 'Successfully bought product!');    
+    req.session.cart = null;
+    res.redirect('/');
+
+}); 
 
 
   
+
+
+
 
 
 module.exports = router;

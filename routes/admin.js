@@ -26,7 +26,6 @@ const middleware = require('./middleware');
 
 
 router.get("/", async(req,res,next) => {
-    console.log("Inside get admin area")
     
     res.render('admin-layout/admin')
 })
@@ -49,6 +48,15 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
     }
 })
 
+
+router.get("/items/update", middleware.isLoggedIn, async(req,res,next)=>{
+    res.render('admin-layout/item_update');
+})
+
+
+router.get("/items/add", middleware.isLoggedIn, async(req,res,next)=>{
+    res.render('admin-layout/item_create');
+})
 
 router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
 
