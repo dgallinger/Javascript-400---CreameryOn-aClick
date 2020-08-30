@@ -12,7 +12,7 @@ router.get("/", async(req,res,next) => {
         return res.render('shop/shopping-cart', {items: null});
     }
     let cart = await new Cart(req.session.cart);
-    res.render('shop/shopping-cart', {items: cart.generateArray(), totalPrice: cart.totalPrice});
+    res.render('shop/shopping-cart', {items: cart.getItems(), totalPrice: cart.totalPrice});
     
 })
 
@@ -20,4 +20,4 @@ router.get("/", async(req,res,next) => {
 
 
 
-module.exports = router;
+module.exports = router

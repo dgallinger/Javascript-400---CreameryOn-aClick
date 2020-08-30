@@ -25,7 +25,7 @@ router.get("/", async (req,res,next) => {
 
   let itemChunks = [];
   itemsChunks = await itemDAO.getAll(itemChunks);
-  res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks,successMsg: successMsg, noMessages: !successMsg});
+  res.render('shop/index', { title: 'Creamery-On-aClick', items: itemChunks, successMsg: successMsg, noMessages: !successMsg});
   
 });
 

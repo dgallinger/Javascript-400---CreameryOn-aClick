@@ -31,7 +31,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
  };
 
  module.exports.getAll = async(itemChunks) => {
-    const allItems = Item.find(function(err, docs) {
+    const allItems =  Item.find(function(err, docs) {
 
         let chunkSize = 3;
         for(let i=0; i < docs.length; i+= chunkSize){
@@ -46,11 +46,25 @@ module.exports.create = async (title, price, imagePath, description, story, size
 };
 
 
+// module.exports.getAllbyId = (itemId,cart) => {
+//     console.log("inside item dao")
+//     let item =   Item.findById(itemId);
+//     console.log(item)
+//     return item;
+// };
+
+module.exports.getById = async(itemId) => {
+    const item = await Item.findOne({ _id : itemId });
+    return item;
+
+    }
+
+
+
+
 
  module.exports.updateItem = async(itemId, price, title, description, story, size, imagePath) => {
-    if (!mongoose.Types.ObjectId.isValid(itemId)) {
-        throw new BadDataError('Not valid item id');
-      }else{
+    
         try{
             const updatedItem = await Item.update({ _id: itemId }, { price: price }, 
                 {title: title},{description:description},{story: story},{size: size},{imagePath: imagePath});
@@ -59,7 +73,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
         }catch(error){
             throw error;
         }
-    }
+    
 
  };
 
