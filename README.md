@@ -1,7 +1,9 @@
 
 
-
+## Updated README 
+--------------------
 ## CreameryOn-AClick
+
 
 ### Completed:
 
@@ -44,7 +46,7 @@ The complete Project Proposal is as below:
 This project is `CreameryOn-AClick` is basically an online store for everyone’s favorite summer snack, ice cream. The users can visit the webpage and order their favorite ice-cream and can enjoy it in the pleasure and safety of their homes. 
 
 
-### Task:
+#### Task:
 
 
 Our objective is to create an online dessert shopping experience for our clients. 
@@ -63,7 +65,7 @@ Also, a user can create multiple wishlists for the items he likes, after he logi
 An 'admin' will have full control on the webpage. He can add, edit or delete an item, retireve all the orders placed.
 
 
-### Models:
+#### Models:
 
 Completed:
 
@@ -86,7 +88,7 @@ Completed:
 ![layout](models.png)
   
 
-### Routes: 
+#### Routes: 
 
 Some basic routes will be:
 
@@ -119,15 +121,15 @@ Some basic routes will be:
 		- Create: POST /auctions/:id/bid - a user will create a bid on his id
 		- Get all bids: GET/bids - a user can get all the bids he placed
 
-### Data Flow Diagram:
+#### Data Flow Diagram:
 ![layout](Data_Flow.png)
 
 
-### Request and Response Diagram from Front End to Database using Node JS to handle client-server communication.  
+#### Request and Response Diagram from Front End to Database using Node JS to handle client-server communication.  
 ![layout](Request_and_Response.png)
  
 
-### Good to Have: 
+#### Good to Have: 
 
 Our primary plan is to be able to design the front end and the back end for the online icecream store webpage and it would be great if we would be able to add a payment page and connect it to Paypal/ Stripe by the end of this project.
 
