@@ -3,10 +3,9 @@ const router = Router();
 const csrf = require('csurf');
 const passport = require('passport');
 const middleware = require('./middleware');
-
-const Order= require('../models/order')
 const orderDAO = require('../daos/order');
-const Cart= require('../models/cart')
+const wishlistDAO = require('../daos/wishlist');
+
 
 
 
@@ -15,36 +14,42 @@ const Cart= require('../models/cart')
 const  csrfProtection = csrf();
 router.use(csrfProtection);
 
-// redirecting loggedin user
-
-// router.get('/profile', middleware.isLoggedIn, function(req,res,next) {
-//   //get order by user
-//   Order.find({user: req.user}, function(err, orders) {
-//     if (err) {
-//         return res.write('Error!');
-//     }
-//     var cart;
-//     orders.forEach(function(order) {
-//         cart = new Cart(order.cart);
-//         order.items = cart.generateArray();
-//     });
-//     console.log("my orders", orders);
-//     res.render('user/profile', { orders: orders });
-// });
-//   })
 
 
-
-
-
-router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
+router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
+  
   userId = req.user.id;
   orders = await orderDAO.getAllByUserId(userId);
-  
-  res.render('user/profile', { orders: orders });
+  res.render('user/orders', {orders: orders});
+
+});
+
+router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
+ 
+  userId = req.user.id;
+  console.log(userId);
+  wishlists = await wishlistDAO.getAllByUserId(userId);
+  console.log(wishlists);
+  console.log(wishlists[0].name);
+  console.log(wishlists[0].items[0]);
+  console.log(wishlists[0].items[1]);
+
+  res.render('user/wishlists', {wishlists: wishlists});
 
 
 });
+
+
+router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
+  
+  res.render('user/profile');
+
+});
+
+
+
+
+
 
 
 
@@ -109,6 +114,7 @@ router.post('/signin', passport.authenticate('local.signin', {
         // let oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
         res.redirect('/checkout');
+        
         
     } else{ 
         if (admin[0] == "admin")

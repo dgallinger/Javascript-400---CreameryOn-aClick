@@ -1,15 +1,15 @@
 const { Router } = require("express");
 const router = Router();
 
-const Cart= require('../models/cart');
+const Cart= require('../allCarts/shoppingCart');
 
 
 
 router.get('/:id', async(req, res, next) => {
-    var productId = req.params.id;
+    var itemId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {});
 
-    cart.reduceByOne(productId);
+    cart.reduceByOne(itemId);
     req.session.cart = cart;
     res.redirect('/shopping-cart');
 });
