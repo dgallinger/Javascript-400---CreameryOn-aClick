@@ -159,8 +159,6 @@ const mapReqItems = async (reqItems) => {
       quantity: orderItem.quantity
     }
   });
-  console.log("PRINTING MAP REQITEMS");
-  console.log(items);
   return items;
 }
 

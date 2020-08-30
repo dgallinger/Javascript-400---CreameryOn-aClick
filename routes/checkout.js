@@ -2,7 +2,7 @@ require("dotenv").config(".env");
 
 const { Router } = require("express");
 const router = Router();
-const Cart = require('../models/cart');
+const Cart = require('../allCarts/shoppingCart');
 const orderDAO = require('../daos/order.js')
 
 

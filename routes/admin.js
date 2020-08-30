@@ -43,7 +43,7 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
 
     }
     else{
-    messages = req.flash('error', 'Not Authorized!');
+    req.flash('error', 'Not Authorized!');
     res.redirect('/');
     }
 })

@@ -4,14 +4,17 @@ const router = Router();
 
 router.use("/user", require("./user"));
 router.use("/add-to-cart", require("./add-to-cart"));
+router.use("/add-to-wishlist", require("./add-to-wishlist"));
 router.use("/about", require("./about"));
 router.use("/contact", require("./contact"));
 router.use("/shopping-cart", require("./shopping-cart"));
+router.use("/wishlist-cart", require("./wishlist-cart"));
 router.use("/checkout", require("./checkout"));
 router.use("/change-password",require("./change-password"));
 router.use("/reduce", require("./reduce"));
 router.use("/remove", require("./remove"));
 router.use("/admin", require("./admin"));
+router.use("/wishlist", require("./wishlist"));
 
 
 router.use("/", require("./item"));
