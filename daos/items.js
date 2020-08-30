@@ -31,6 +31,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
  };
 
  module.exports.getAll = async(itemChunks) => {
+
     const allItems =  Item.find(function(err, docs) {
 
         let chunkSize = 3;
@@ -46,18 +47,13 @@ module.exports.create = async (title, price, imagePath, description, story, size
 };
 
 
-// module.exports.getAllbyId = (itemId,cart) => {
-//     console.log("inside item dao")
-//     let item =   Item.findById(itemId);
-//     console.log(item)
-//     return item;
-// };
+
 
 module.exports.getById = async(itemId) => {
     const item = await Item.findOne({ _id : itemId });
     return item;
 
-    }
+}
 
 
 
