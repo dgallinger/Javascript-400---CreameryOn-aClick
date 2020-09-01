@@ -4,6 +4,7 @@ const wishlistCart= require('../allCarts/wishlistCart')
 const itemDAO = require('../daos/items');
 
 
+//adding items to wishlist
 
 router.get("/:id", async (req,res,next) => {
 

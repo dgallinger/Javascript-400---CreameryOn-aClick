@@ -5,7 +5,7 @@ const ShoppingCart= require('../allCarts/shoppingCart');
 const wishlistCart= require('../allCarts/wishlistCart')
 
 
-
+// rendering and removing items from cart
 router.get('/:id', async(req, res, next) => {
     var itemId = req.params.id;
     if(req.session.wishlistcart){

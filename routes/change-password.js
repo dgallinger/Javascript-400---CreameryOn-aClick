@@ -3,6 +3,8 @@ const router = Router();
 
 const userDAO = require('../daos/users');
 
+
+//rendering password change page
 router.get('/', async(req,res,next) =>{
    
     const messages = req.flash('error');

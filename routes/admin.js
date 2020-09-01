@@ -6,24 +6,7 @@ const itemDAO = require('../daos/items');
 const orderDAO = require('../daos/order')
 const middleware = require('./middleware');
 
-// const isAdmin = async(req,res,next) => {
-//   if(req.user.roles.includes('admin')) {
-//       next();
-//   }
-//   else{
-//       res.sendStatus(403);
-//   }
-
-// };
-
-// const isLoggedIn = async(req, res, next) => {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     req.session.oldUrl = req.url;
-//     res.redirect('/user/signin');
-//   }
-
+// get admin area
 
 router.get("/", async(req,res,next) => {
 
@@ -50,10 +33,12 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
     }
 })
 
+
 //update items for admin
 router.get("/items/update", middleware.isLoggedIn, async(req,res,next)=>{
     res.render('admin-layout/item_update');
 })
+
 
 //create items for admin
 
@@ -69,12 +54,12 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     const size = req.body.size;
     const imagePath = req.body.imagePath;
   
-    console.log(title);
-    console.log(price);
-    console.log(description);
-    console.log(story);
-    console.log(size);
-    console.log(imagePath);
+    // console.log(title);
+    // console.log(price);
+    // console.log(description);
+    // console.log(story);
+    // console.log(size);
+    // console.log(imagePath);
   
     const newItem = await itemDAO.create(imagePath,title, description, story, size, price );
     if(newItem){
@@ -85,11 +70,11 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
           res.status(409).send("Item already exists");
         }
     
-  });
+});
 
   //delete an item
 
-  router.get("/items/:id", async (req, res, next) => {
+router.get("/items/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
     const itemId = req.params.id;
     const success = await itemDAO.deleteById(itemId);
     console.log(success)
@@ -97,13 +82,13 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     res.redirect('/admin/items');
     
 
-  });
+});
 
 
 
 
 
-//get all orders for admin pending rendering
+//get all orders for admin 
 
 router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
 

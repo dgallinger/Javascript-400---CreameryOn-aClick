@@ -74,6 +74,15 @@ const aggregationGetWishlist = [
     }
 
  };
+
+ // Delete
+ module.exports.deleteById = async (itemId) => {
+  if (!mongoose.Types.ObjectId.isValid(itemId)) {
+    return false;
+  }
+  await Wishlist.deleteOne({ _id: itemId });
+  return true;
+}
   
 
 

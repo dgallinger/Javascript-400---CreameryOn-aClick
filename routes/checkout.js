@@ -17,7 +17,7 @@ function isLoggedIn(req, res, next) {
 }
 
 
-
+//getting checkout and creating order
 
 router.get("/", isLoggedIn, async(req,res,next)=> {
 

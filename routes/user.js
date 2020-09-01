@@ -12,10 +12,10 @@ const wishlist = require('../models/wishlist');
 
 //csrf protection using as a middleware
 
-// const  csrfProtection = csrf();
-// router.use(csrfProtection);
+const  csrfProtection = csrf();
+router.use(csrfProtection);
 
-
+//getting user orders
 
 router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
   
@@ -67,26 +67,40 @@ router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
 
 });
 
-// rendering wishlist update page
+//rendering wishlist update page
 
-router.get('/profile/wishlists/:id', middleware.isLoggedIn, async(req,res,next) => {
-  console.log("********");
-  console.log(req.body.name);
-  res.render('user/wishlist_update');
+// router.get('/profile/wishlists/:id', middleware.isLoggedIn, async(req,res,next) => {
+//   console.log("********");
+//   console.log(req.body.name);
+//   res.render('user/wishlist_update');
 
-});
+// });
 
-//updating a wishlist- not working not finding route
+// //updating a wishlist- not working not finding route
 
-router.put('/profile/wishlists/:id'), middleware.isLoggedIn, async(req,res,next) => {
-  const wishlistId = req.params.id;
-  const {name} = req.body;
-  updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
-  res.redirect('/user/profile');
-}
+// router.put('/profile/wishlists/:id'), middleware.isLoggedIn, async(req,res,next) => {
+//   const wishlistId = req.params.id;
+//   const {name} = req.body;
+//   updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
+//   res.redirect('/user/profile');
+// }
 
 
-  
+//deleteing a wishlist
+
+
+  router.get("/profile/wishlists/:id", middleware.isLoggedIn, async (req, res, next) => {
+    const wishlistId = req.params.id;
+    console.log("Inside wishlist")
+    const success = await wishlistDAO.deleteById(wishlistId);
+    console.log(success)
+    req.flash('success', 'Wishlist has been successfully deleted!');
+    res.redirect('/user/profile');
+    
+
+  });
+
+
 
 
 
@@ -104,6 +118,7 @@ router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
 router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.logout();
     req.session.cart = null;
+    req.flash('success', 'User has been logged-out');    
     res.redirect('/');
 })
 
@@ -121,7 +136,7 @@ router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
     // csrfToken: req.csrfToken()
-    res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
+    res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -148,7 +163,7 @@ router.get('/signin', async (req, res, next) => {
     const messages = req.flash('error');
     // csrfToken: req.csrfToken(),
     
-    res.render('user/signin', {  messages: messages, hasErrors: messages.length > 0});
+    res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
     
     req.session.cart;
   });

@@ -62,26 +62,28 @@ router.get("/", async (req,res,next) => {
 
 //update items
 
-router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, async(req,res,next) => {
-  const itemId = req.params.id;
-  const itemTitle = req.body.title;
-  const itemPrice = req.body.price;
-  const itemDescription = req.body.description;
-  const itemStory = req.body.story
-  const itemSize = req.body.itemSize;
-  const itemImagePath = req.body.imagePath;
+//moved to admin.items/update
 
-  const updatedItem = await itemDAO.updateItem(itemId, itemTitle, itemPrice, itemDescription, itemStory, itemSize, itemImagePath);
-  if(updatedItem){
+// router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, async(req,res,next) => {
+//   const itemId = req.params.id;
+//   const itemTitle = req.body.title;
+//   const itemPrice = req.body.price;
+//   const itemDescription = req.body.description;
+//   const itemStory = req.body.story
+//   const itemSize = req.body.itemSize;
+//   const itemImagePath = req.body.imagePath;
+
+//   const updatedItem = await itemDAO.updateItem(itemId, itemTitle, itemPrice, itemDescription, itemStory, itemSize, itemImagePath);
+//   if(updatedItem){
       
-      successMsg = req.flash('success', 'Item updated');
-      res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
-  }else{
-      res.redirect('admin-layout/items')
+//       successMsg = req.flash('success', 'Item updated');
+//       res.redirect('admin-layout/admin', {successMsg: successMsg, noMessages: !successMsg});
+//   }else{
+//       res.redirect('admin-layout/items')
 
-  }
+//   }
 
-})
+// })
 
 
 
