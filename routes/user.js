@@ -26,12 +26,13 @@ router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
 });
 
 //get order by id //pending rendering
-router.get("/profile/orders:id", 
+router.get("/profile/orders/:id", 
   middleware.isLoggedIn,
   async (req, res, next) => {
     try 
     {
       const orderId = req.params.id;
+      console.log(orderId)
       if (!orderId || orderId === '') { 
         res.status(400).send('id param value is required'); 
         return; 
@@ -49,8 +50,8 @@ router.get("/profile/orders:id",
         res.sendStatus(404);
         return;
       }
-
-      res.json(order);
+      
+      res.render('user/orderById', { order: order});
   } 
   catch(err) 
   {

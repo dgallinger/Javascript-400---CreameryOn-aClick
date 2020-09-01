@@ -8,7 +8,8 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <strong> Order Number : {{this._id}} </strong>
-                        
+                        <a href="/user/profile/orders/{{this._id}}"><b style ="text-align: left">Get Details</b></a> 
+                        <b><h5>User ID: {{this.userId}}</h5></b>
                         
                       
                         {{# each this.items }}

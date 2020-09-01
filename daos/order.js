@@ -16,6 +16,9 @@ const aggregationGetOrder = [
     total: 1, 
     userId: 1,
     status: 1,
+    address: 1,
+    recipient: 1,
+    created: 1,
     itemDetail: {
       _id: "$it._id",
       title: "$it.title",
@@ -29,6 +32,9 @@ const aggregationGetOrder = [
     userId: {$first: "$userId"},
     status: {$first: "$status"},
     total: {$first: "$total"},
+    address: {$first: "$address"},
+    recipient: {$first: "$recipient"},
+    created: {$first: "$created"},
     items: { $addToSet: "$itemDetail"},
   }},
 ];
