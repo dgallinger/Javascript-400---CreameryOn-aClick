@@ -58,6 +58,22 @@ const aggregationGetWishlist = [
     const result = (await Wishlist.aggregate(query));
     return result;
   }
+
+
+  module.exports.updateWishlist = async(wishlistId, name) => {
+    if (!mongoose.Types.ObjectId.isValid(wishlistId)) {
+        throw new BadDataError('Not valid wishlist id');
+      }else{
+        try{
+            const updatedItem = await Wishlist.update({ _id: wishlistId }, { name: name });
+            return updatedItem;
+
+        }catch(error){
+            throw error;
+        }
+    }
+
+ };
   
 
 

@@ -5,14 +5,15 @@ const passport = require('passport');
 const middleware = require('./middleware');
 const orderDAO = require('../daos/order');
 const wishlistDAO = require('../daos/wishlist');
+const wishlist = require('../models/wishlist');
 
 
 
 
 //csrf protection using as a middleware
 
-const  csrfProtection = csrf();
-router.use(csrfProtection);
+// const  csrfProtection = csrf();
+// router.use(csrfProtection);
 
 
 
@@ -24,6 +25,40 @@ router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
 
 });
 
+//get order by id //pending rendering
+router.get("/profile/orders:id", 
+  middleware.isLoggedIn,
+  async (req, res, next) => {
+    try 
+    {
+      const orderId = req.params.id;
+      if (!orderId || orderId === '') { 
+        res.status(400).send('id param value is required'); 
+        return; 
+      }
+  
+      const order = await orderDAO.getById(orderId);
+      if (!order) {
+        res.sendStatus(404); 
+        return;
+      }
+      //if neither an admin nor the user's order
+      const reqUser = req.user;
+      if (!reqUser.roles.includes(middleware.roleNameAdmin) 
+        && String(order.userId) !== reqUser.id) {
+        res.sendStatus(404);
+        return;
+      }
+
+      res.json(order);
+  } 
+  catch(err) 
+  {
+    next(err);
+  }
+});
+
+// get all wishlists for a user
 router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
   userId = req.user.id;
   wishlists = await wishlistDAO.getAllByUserId(userId);
@@ -32,7 +67,30 @@ router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
 
 });
 
+// rendering wishlist update page
 
+router.get('/profile/wishlists/:id', middleware.isLoggedIn, async(req,res,next) => {
+  console.log("********");
+  console.log(req.body.name);
+  res.render('user/wishlist_update');
+
+});
+
+//updating a wishlist- not working not finding route
+
+router.put('/profile/wishlists/:id'), middleware.isLoggedIn, async(req,res,next) => {
+  const wishlistId = req.params.id;
+  const {name} = req.body;
+  updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
+  res.redirect('/user/profile');
+}
+
+
+  
+
+
+
+// get user profile
 router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
   
   res.render('user/profile');
@@ -41,10 +99,7 @@ router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
 
 
 
-
-
-
-
+// user logout
 
 router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.logout();
@@ -52,8 +107,8 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     res.redirect('/');
 })
 
- // redirecting not loggedin user
 
+ // redirecting not loggedin user
  
  router.use('/', middleware.notLoggedIn, async(req,res,next) => {
      next();
@@ -65,7 +120,8 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
-    res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
+    // csrfToken: req.csrfToken()
+    res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -86,15 +142,18 @@ router.post('/signup', passport.authenticate('local.signup',{
 });
 
   
-
+// get signin
 router.get('/signin', async (req, res, next) => {
     
     const messages = req.flash('error');
+    // csrfToken: req.csrfToken(),
     
-    res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+    res.render('user/signin', {  messages: messages, hasErrors: messages.length > 0});
     
     req.session.cart;
   });
+
+ // user signin 
   
 router.post('/signin', passport.authenticate('local.signin', {
    
