@@ -2,6 +2,12 @@ const { Router }= require('express');
 const router = Router();
 const csrf = require('csurf');
 const passport = require('passport');
+const middleware = require('./middleware');
+const orderDAO = require('../daos/order');
+const wishlistDAO = require('../daos/wishlist');
+
+
+
 
 //csrf protection using as a middleware
 
@@ -9,46 +15,47 @@ const  csrfProtection = csrf();
 router.use(csrfProtection);
 
 
-//checking if user is loggedin 
-function isLoggedIn(req, res, next) {
-    
-    if (req.isAuthenticated()) {
+
+router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
+  
+  userId = req.user.id;
+  orders = await orderDAO.getAllByUserId(userId);
+  res.render('user/orders', {orders: orders});
+
+});
+
+router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
+  userId = req.user.id;
+  wishlists = await wishlistDAO.getAllByUserId(userId);
+  res.render('user/wishlists', {wishlists: wishlists});
 
 
-        next();
-    }
-    else{
-        res.redirect('/');
-    }
-}
+});
 
 
-function notLoggedIn(req, res, next) {
-    
-    if (!req.isAuthenticated()) {
-        next();
-    }
-    else{
-        res.redirect('/');
-    }
-}
+router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
+  
+  res.render('user/profile');
 
-// redirecting loggedin user
-router.get('/profile', isLoggedIn, async(req,res,next) => {
-    res.render('user/profile');
-  })
+});
 
-router.get('/logout', isLoggedIn,async(req,res,next) => {
+
+
+
+
+
+
+
+router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
     req.logout();
     req.session.cart = null;
     res.redirect('/');
 })
 
-
  // redirecting not loggedin user
 
  
- router.use('/', notLoggedIn, async(req,res,next) => {
+ router.use('/', middleware.notLoggedIn, async(req,res,next) => {
      next();
  });
 
@@ -56,6 +63,7 @@ router.get('/logout', isLoggedIn,async(req,res,next) => {
 //get signup
 
 router.get('/signup', async(req,res,next) => {
+    
     const messages = req.flash('error');
     res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
   
@@ -73,15 +81,18 @@ router.post('/signup', passport.authenticate('local.signup',{
         req.session.oldUrl = null;
         res.redirect('/checkout');
     } else {
-        res.redirect('/');
+        res.redirect('/user/profile');
 }
 });
 
   
 
 router.get('/signin', async (req, res, next) => {
+    
     const messages = req.flash('error');
-    res.render('user/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+    
+    res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+    
     req.session.cart;
   });
   
@@ -91,23 +102,23 @@ router.post('/signin', passport.authenticate('local.signin', {
     failureFlash: true
   
   }), function (req, res, next) {
+    admin = req.user.roles;
     if (req.session.oldUrl) {
         // let oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
         res.redirect('/checkout');
-    } else {
-        res.redirect('/');
-    }
+        
+        
+    } else{ 
+        if (admin[0] == "admin")
+        {
+        res.redirect('/admin');
+        }
+        else{
+        res.redirect('/user/profile');
+        
+    }}
   });
 
 
-
-
 module.exports = router;
-
-
-
-
-
-
-

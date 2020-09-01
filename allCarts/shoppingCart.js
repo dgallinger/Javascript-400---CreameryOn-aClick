@@ -1,4 +1,4 @@
-// retrive a previous card and modify it 
+//All cart functions
 
 
 module.exports = function Cart(oldCart) {
@@ -35,7 +35,7 @@ module.exports = function Cart(oldCart) {
         delete this.items[id];
     };
 
-    this.generateArray = function () {
+    this.getItems = function () {
         let arr = [];
         for (let id in this.items) {
             arr.push(this.items[id]);

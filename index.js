@@ -1,8 +1,5 @@
 const server = require("./server");
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
-
 const port = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
@@ -14,7 +11,6 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
    console.log(`Server is listening on http://localhost:${port}`);
   });
 });
-
 require('./config/passport');
 
 

@@ -11,25 +11,38 @@
             <a class="navbar-brand" href="/">CremeryOn-aClick</a>
             <a class="navbar-brand" href="/about">About </a>
             <a class="navbar-brand" href="/contact">Connect</a> 
+            <a class="navbar-brand" href="/admin">Admin Area</a> 
 
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                
                 <li>
                     <a href="/shopping-cart/">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
                         <span class = "badge">{{session.cart.totalQty}}</span>
                         </a>
                 </li>
+                
+                <li>
+                    <a href="/wishlist-cart/">
+                        <i class="fa fa-heart" aria-hidden="true"></i> Wish List
+                        <span class = "badge">{{session.wishlistcart.totalQty}}</span>
+                        </a>
+                </li>
+                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Management <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {{#if login}}
                             <li><a href="/user/profile">User Account</a></li>
                             <li role="separator" class="divider"></li>
+                            <li><a href="/change-password">Change Password</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a href="/user/logout">Logout</a></li>
+                             
                         {{ else }}
                             <li><a href="user/signup">Sign Up</a></li>
                             <li><a href="user/signin">Sign In</a></li>

@@ -3,6 +3,9 @@ const User = require('../models/users');
 const LocalStrategy = require('passport-local').Strategy;
 
 
+const userDAO = require('../daos/users');
+
+
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
@@ -21,7 +24,7 @@ passport.use('local.signup', new LocalStrategy({
     passReqToCallback: true
 },function(req, email, password, done) {
     req.checkBody('email', 'Check Email').notEmpty().isEmail();
-    req.checkBody('password', 'Password must be at least 6 characters').notEmpty().isLength({min:6});
+    req.checkBody('password', 'Password must be at least 4 characters').notEmpty().isLength({min:4});
     const errors = req.validationErrors();
     if (errors) {
         var messages = [];
@@ -30,24 +33,7 @@ passport.use('local.signup', new LocalStrategy({
         });
         return done(null, false, req.flash( 'error', messages));
     }
-
-    User.findOne({'email': email}, function(err,user){
-        if (err){
-            return done(err);
-        }
-        if (user){
-            return done(null, false, {message: 'Email is already in use.'});
-        }
-        var newUser = new User();
-        newUser.email = email;
-        newUser.password = newUser.encryptPassword(password);
-        newUser.save(function(err, result){
-            if (err){
-                return done(err);
-            }
-            return done(null, newUser);
-        })
-    });
+    userDAO.signUp(email, password,done);
 
 }));
 
@@ -68,30 +54,11 @@ passport.use('local.signin', new LocalStrategy({
         });
         return done(null, false, req.flash('error', messages));
     }
-    User.findOne({'email': email}, function (err, user) {
-        if (err) {
-            return done(err);
-        }
-        if (!user) {
-            return done(null, false, {message: 'No user found.'});
-        }
-        if (!user.validPassword(password)) {
-            return done(null, false, {message: 'Please check password'});
-        }
-        return done(null, user);
-    });
+
+    userDAO.signIn(email, password,done);
+    
 }));
 
-//update password
 
 
 
-// User.findOne({ username: req.user.username })
-// .then((u) => {
-//     u.setPassword(req.body.newPassword,(err, u) => {
-//         if (err) return next(err);
-//         u.save();
-//         res.status(200).json({ message: 'password change successful' });
-//     });
-
-// })

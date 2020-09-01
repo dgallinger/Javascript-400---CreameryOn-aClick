@@ -1,20 +1,14 @@
-
 <h1 style="text-align : center;">Welcome to Creamery-on-a-Click</h1>
-
 
 <div class="row">
     <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
      <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
             {{ successMsg }}
-        </div>  
-    <div id="error" class="alert alert-danger" {{#if noErrMessages}}hidden{{/if}}>
-            {{ errorMsg }}
-    </div> 
-    
+        </div>   
     </div>
 </div>
 
-
+<a href="items/add"><b style ="text-align: left">Add an item</b></a> 
 
 {{# each items }}
     <div class="row">
@@ -26,19 +20,17 @@
                         <h3>{{ this.title }}</h3>
                         <p class="description">{{ this.description }}</p>
                         <p class="description">"{{ this.story}}"</p>
+                         <div class="clearfix">
+                             <p class="description pull-left">({{ this.size }})</p>
+                             <div class="price pull-right">${{ this.price }}</div>
+                         </div>
+                        
                         <div class="clearfix">
-                        <p class="description pull-left">({{ this.size }})</p>
-                        <p  class="price pull-right"><strong>${{ this.price }}</strong></p>
-                        </div>
-                        <div class="clearfix">
-                            
-                          
-                            <a href="/add-to-wishlist/{{this._id}}" class="btn btn-success pull-left" role = "button" ><i class="fa fa-heart" aria-hidden="true"></i> </a> 
-                            
-                            <a href="/add-to-cart/{{this._id}}" class="btn btn-success pull-right" role="button">Add to Cart</a>  
-
-                                              
-                        </div>
+                            <a href="items/update" class= "pull-left"><b>Update</b></a> 
+                            <a href="items/delete" class= "pull-right"><b>Delete</b></a> 
+                                
+                        </div>                         
+                        
                         
                     </div>
                 </div>
@@ -46,7 +38,5 @@
         {{/each}}
     </div>
 {{/each}}
-
-
 
 
