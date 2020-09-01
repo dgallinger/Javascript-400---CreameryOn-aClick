@@ -4,7 +4,7 @@ const Item = require('../models/items');
 module.exports = {};
 
 
-module.exports.create = async (title, price, imagePath, description, story, size) => {
+module.exports.create = async (imagePath,title, description, story, size, price) => {
 
     let item = await Item.findOne({ title: title});
 
@@ -17,7 +17,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
                 imagePath: imagePath,
                 title: title,
                 price: price,
-                decription: description,
+                description: description,
                 story: story,
                 size: size
 
@@ -63,7 +63,7 @@ module.exports.getById = async(itemId) => {
     
         try{
             const updatedItem = await Item.update({ _id: itemId }, { price: price }, 
-                {title: title},{description:description},{story: story},{size: size},{imagePath: imagePath});
+                {title: title}, {description:description},{ story: story},{size: size},);
             return updatedItem;
 
         }catch(error){

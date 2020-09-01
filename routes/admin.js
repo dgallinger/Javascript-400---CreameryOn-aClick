@@ -41,19 +41,20 @@ router.get("/items/update", middleware.isLoggedIn, async(req,res,next)=>{
 
 
 //create items for admin
+//not working - price as a number getting error
 
 router.get("/items/add", middleware.isLoggedIn, async(req,res,next)=>{
     res.render('admin-layout/item_create');
 })
 
 router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req,res,next)=>{
-    const title = req.body.title;
-    const price = req.body.price;
-    const description = req.body.description;
-    const story = req.body.story
-    const size = req.body.size;
     const imagePath = req.body.imagePath;
-  
+    const title = req.body.title;
+    const description = req.body.description;
+    const story = req.body.story;
+    const size = req.body.size;
+    const price = req.body.price;
+    
     // console.log(title);
     // console.log(price);
     // console.log(description);
@@ -62,6 +63,7 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     // console.log(imagePath);
   
     const newItem = await itemDAO.create(imagePath,title, description, story, size, price );
+    console.log(newItem)
     if(newItem){
         newItem.save();
         req.flash('success', 'Item Created');
