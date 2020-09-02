@@ -104,7 +104,7 @@ router.get("/items/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, 
 router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
 
     if(req.user.roles.includes('admin')){
-        let successMsg = req.flash('success')[0];
+        
         orders = await orderDAO.getAll();
         console.log(orders);
         res.render('admin-layout/orders', {orders: orders,successMsg: successMsg, noMessages: !successMsg})

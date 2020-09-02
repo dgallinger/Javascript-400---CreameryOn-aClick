@@ -87,9 +87,6 @@ router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
 });
 
 
-
-
-
 //deleteing a wishlist
 
 
@@ -97,7 +94,7 @@ router.get("/profile/wishlists/:id", middleware.isLoggedIn, async (req, res, nex
   const wishlistId = req.params.id;
   const success = await wishlistDAO.deleteById(wishlistId);
   req.flash('success', 'Wishlist has been successfully deleted!');
-  res.redirect('/user/profile');
+  res.redirect('/user/profile/wishlists');
   
 });
 
