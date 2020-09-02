@@ -7,7 +7,7 @@ const itemSchema =  new mongoose.Schema({
     description: {type: String, required: true},
     story:  {type: String, required: true},
     size: {type: String, required: true},
-    price: {type: String, required: true}
+    price: {type: Number, required: true}
 });
 
 module.exports = mongoose.model('items', itemSchema);

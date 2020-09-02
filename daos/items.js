@@ -62,7 +62,7 @@ module.exports.getById = async(itemId) => {
  module.exports.updateItem = async(itemId, title) => {
     
         try{
-            const updatedItem = await Item.update({ _id: itemId }, 
+            const updatedItem = await Item.updateOne({ _id: itemId }, 
                 {title: title})
             return updatedItem;
 

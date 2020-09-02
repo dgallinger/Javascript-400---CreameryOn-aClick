@@ -65,7 +65,7 @@ const aggregationGetWishlist = [
         throw new BadDataError('Not valid wishlist id');
       }else{
         try{
-            const updatedItem = await Wishlist.update({ _id: wishlistId }, { name: name });
+            const updatedItem = await Wishlist.updateOne({ _id: wishlistId }, { name: name });
             return updatedItem;
 
         }catch(error){

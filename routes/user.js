@@ -25,7 +25,6 @@ router.get("/profile/orders/:id",
     try 
     {
       const orderId = req.params.id;
-      console.log(orderId)
       if (!orderId || orderId === '') { 
         res.status(400).send('id param value is required'); 
         return; 
@@ -63,28 +62,26 @@ router.get('/profile/wishlists/update/:id', async(req,res,next) =>{
    
 const wishlistId = req.params.id;
 
-console.log("Inside get wishlist update")
 res.render('user/wishlist-update', {_id: wishlistId})
 });
 
 router.post('/profile/wishlists/update/:id', async(req,res,next) => {
-  console.log("Inside post wishlist")
+ 
   const wishlistId = req.params.id;
-  console.log(wishlistId);
   const {name} = req.body;
-  console.log(name);
   updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
-  console.log(updatedItem);
   req.flash('success', 'Wishlist name has been updated!');  
-  res.redirect('/');
+  res.redirect('/user/profile/wishlists');
 });
 
 
 // get all wishlists for a user
 router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
+  let successMsg = req.flash('success')[0];
+  let errorMsg = req.flash('error')[0];
   userId = req.user.id;
   wishlists = await wishlistDAO.getAllByUserId(userId);
-  res.render('user/wishlists', {wishlists: wishlists});
+  res.render('user/wishlists', {wishlists: wishlists,successMsg: successMsg, noMessages: !successMsg, errorMsg: errorMsg, noErrMessages: !errorMsg});
 
 
 });
@@ -98,9 +95,7 @@ router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
 
 router.get("/profile/wishlists/:id", middleware.isLoggedIn, async (req, res, next) => {
   const wishlistId = req.params.id;
-  console.log("Inside wishlist")
   const success = await wishlistDAO.deleteById(wishlistId);
-  console.log(success)
   req.flash('success', 'Wishlist has been successfully deleted!');
   res.redirect('/user/profile');
   
@@ -136,7 +131,7 @@ router.post("/change-password",  async(req,res)=>{
           res.redirect('/');
     } else {
           
-        res.redirect('/password');
+        res.redirect('/user/change-password');
         
   }
 
@@ -166,7 +161,7 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
-    // csrfToken: req.csrfToken()
+    
     res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
   
   });
@@ -183,7 +178,8 @@ router.post('/signup', passport.authenticate('local.signup',{
         req.session.oldUrl = null;
         res.redirect('/checkout');
     } else {
-        res.redirect('/user/profile');
+      req.flash('success', 'Login Successful'); 
+      res.redirect('/');
 }
 });
 
@@ -220,7 +216,8 @@ router.post('/signin', passport.authenticate('local.signin', {
         res.redirect('/admin');
         }
         else{
-        res.redirect('/user/profile');
+        req.flash('success', 'Login Successful'); 
+        res.redirect('/');
         
     }}
   });

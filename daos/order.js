@@ -127,7 +127,7 @@ module.exports.getById = async(orderId) => {
 module.exports.updateOrder= async(orderId, orderStatus) => {
     
   try{
-      const updatedOrder= await Order.update(
+      const updatedOrder= await Order.updateOne(
         { _id: orderId }, 
         {status : orderStatus});
       return updatedOrder;
