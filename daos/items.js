@@ -59,11 +59,11 @@ module.exports.getById = async(itemId) => {
 
 
 
- module.exports.updateItem = async(itemId, price, title, description, story, size, imagePath) => {
+ module.exports.updateItem = async(itemId, title) => {
     
         try{
-            const updatedItem = await Item.update({ _id: itemId }, { price: price }, 
-                {title: title}, {description:description},{ story: story},{size: size},);
+            const updatedItem = await Item.update({ _id: itemId }, 
+                {title: title})
             return updatedItem;
 
         }catch(error){

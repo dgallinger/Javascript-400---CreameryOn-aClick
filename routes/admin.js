@@ -14,7 +14,7 @@ router.get("/", async(req,res,next) => {
 })
   
 
-
+//ITEMS
 
 //get all items for admin
 router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
@@ -34,14 +34,34 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
 })
 
 
-//update items for admin
-router.get("/items/update", middleware.isLoggedIn, async(req,res,next)=>{
-    res.render('admin-layout/item_update');
+
+//update items
+router.get("/items/update/:id",middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
+    console.log("Inside get item update")
+    const itemId =  req.params.id;
+
+    res.render('admin-layout/item_update', {_id: itemId});
 })
+
+router.post("/items/update/:id", middleware.isLoggedIn, middleware.isAdmin, async(req,res,next) => {
+
+  const itemId = req.params.id;
+  const itemTitle = req.body.title;
+
+
+  const updatedItem = await itemDAO.updateItem(itemId, itemTitle);
+
+      successMsg = req.flash('success', 'Item updated');
+      res.redirect('/admin/items');
+  
+
+  });
+
+
+
 
 
 //create items for admin
-//not working - price as a number getting error
 
 router.get("/items/add", middleware.isLoggedIn, async(req,res,next)=>{
     res.render('admin-layout/item_create');
@@ -54,14 +74,7 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     const story = req.body.story;
     const size = req.body.size;
     const price = req.body.price;
-    
-    // console.log(title);
-    // console.log(price);
-    // console.log(description);
-    // console.log(story);
-    // console.log(size);
-    // console.log(imagePath);
-  
+
     const newItem = await itemDAO.create(imagePath,title, description, story, size, price );
     console.log(newItem)
     if(newItem){
@@ -74,7 +87,7 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     
 });
 
-  //delete an item
+//delete an item
 
 router.get("/items/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
     const itemId = req.params.id;
@@ -85,10 +98,6 @@ router.get("/items/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, 
     
 
 });
-
-
-
-
 
 //get all orders for admin 
 
@@ -104,7 +113,29 @@ router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
         errorMsg = req.flash('error', 'Not Authorized!');
         res.redirect('/');
     }
+});
+
+//update items
+router.get("/orders/update/:id",middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
+    console.log("Inside get order update")
+    const orderId =  req.params.id;
+
+    res.render('admin-layout/orders_update', {_id: orderId});
 })
+
+router.post("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, async(req,res,next) => {
+
+  const orderId = req.params.id;
+  const orderStatus = req.body.status;
+
+
+  const updatedOrder = await orderDAO.updateOrder(orderId, orderStatus);
+    console.log(updatedOrder)
+
+      successMsg = req.flash('success', 'Order status has been updated');
+      res.redirect('/admin/orders');
+  
+  });
 
 
 module.exports = router;

@@ -1,17 +1,15 @@
-
-    
-    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+<div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
        
         <h4 style ="text-align:center">Update item details</h4>
         <div id="error" class="alert alert-danger hidden">
            
         </div>
-        <form action="/admin/items/update/{{this._id}}" method="post" id="update-item">
+        <form action="/admin/orders/update/{{this._id}}" method="post" id="update-item">
              
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <label for="name"> New Title</label>
-                        <input type="text" id="title" class="form-control" required name="title">
+                        <label for="status"> Update Staus</label>
+                        <input type="text" id="status" class="form-control" required name="status">
                     </div>
                 </div>
                 <hr>
@@ -19,5 +17,3 @@
                 <button type="submit" class="btn btn-success">Update</button>
              </form>
     </div>
-
-

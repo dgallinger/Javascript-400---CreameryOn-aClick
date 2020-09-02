@@ -8,8 +8,10 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <strong> Order Number : {{this._id}} </strong>
-                        
+                        <a href="/admin/orders/update/{{this._id}}"><b style ="text-align:left"> Update Order Status</b></a> 
                         <b><h5>User ID: {{this.userId}}</h5></b>
+                        <b><h5>Order Status: {{this.status}}</h5></b>
+
                         
                       
                         {{# each this.items }}
