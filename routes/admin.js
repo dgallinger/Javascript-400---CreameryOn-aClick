@@ -50,10 +50,9 @@ router.post("/items/update/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 
   const itemId = req.params.id;
   const itemTitle = req.body.title;
-  const itemPrice = req.body.price;
+  
 
-
-  const updatedItem = await itemDAO.updateItem(itemId, itemTitle,itemPrice);
+  const updatedItem = await itemDAO.updateItem(itemId, itemTitle);
 
       successMsg = req.flash('success', 'Item updated');
       res.redirect('/admin/items');

@@ -59,12 +59,11 @@ module.exports.getById = async(itemId) => {
 
 
 
- module.exports.updateItem = async(itemId, title, price) => {
+ module.exports.updateItem = async(itemId, title) => {
     
         try{
             const updatedItem = await Item.updateOne({ _id: itemId }, 
-                {title: title,
-                price: price })
+                {title: title})
             return updatedItem;
 
         }catch(error){
