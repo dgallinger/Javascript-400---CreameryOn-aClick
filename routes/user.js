@@ -53,27 +53,7 @@ router.get("/profile/orders/:id",
 
 
 
-
-
-// update wishlist
-
-
-router.get('/profile/wishlists/update/:id', async(req,res,next) =>{
-   
-const wishlistId = req.params.id;
-
-res.render('user/wishlist-update', {_id: wishlistId})
-});
-
-router.post('/profile/wishlists/update/:id', async(req,res,next) => {
- 
-  const wishlistId = req.params.id;
-  const {name} = req.body;
-  updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
-  req.flash('success', 'Wishlist name has been updated!');  
-  res.redirect('/user/profile/wishlists');
-});
-
+//wishlist
 
 // get all wishlists for a user
 router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
@@ -86,6 +66,25 @@ router.get('/profile/wishlists', middleware.isLoggedIn, async(req,res,next) => {
 
 });
 
+// update wishlist
+
+
+router.get('/profile/wishlists/update/:id', async(req,res,next) =>{
+   
+const wishlistId = req.params.id;
+
+res.render('user/wishlist-update', {_id: wishlistId})
+});
+
+router.post('/profile/wishlists/update/:id', async(req,res,next) => {
+  const wishlistId = req.params.id;
+  const {name} = req.body;
+  updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
+  req.flash('success', 'Wishlist name has been updated!');  
+  res.redirect('/user/profile/wishlists');
+});
+
+
 
 //deleteing a wishlist
 
@@ -94,15 +93,16 @@ router.get("/profile/wishlists/:id", middleware.isLoggedIn, async (req, res, nex
   const wishlistId = req.params.id;
   const success = await wishlistDAO.deleteById(wishlistId);
   req.flash('success', 'Wishlist has been successfully deleted!');
-  res.redirect('/user/profile/wishlists');
+  res.redirect('/user/profile');
   
 });
 
 
+
 // get user profile
 router.get('/profile', middleware.isLoggedIn, async(req,res,next) => {
-  
-  res.render('user/profile');
+  let successMsg = req.flash('success')[0];
+  res.render('user/profile', {successMsg: successMsg, noMessages: !successMsg});
 
 });
 

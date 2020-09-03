@@ -9,7 +9,6 @@ const middleware = require('./middleware');
 // get admin area
 
 router.get("/", async(req,res,next) => {
-
     res.render('admin-layout/admin')
 })
   
@@ -26,10 +25,15 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
         await itemDAO.getAll(itemChunks);
         res.render('admin-layout/items', {items: itemChunks,successMsg: successMsg, noMessages: !successMsg})
 
+    }else if(middleware.notLoggedIn){
+        req.flash('error', 'Not Authorized!');
+        res.redirect('/');
+
     }
+    
     else{
-    req.flash('error', 'Not Authorized!');
-    res.redirect('/');
+        req.flash('error', 'Not Authorized!');
+        res.redirect('/');
     }
 })
 
@@ -37,9 +41,8 @@ router.get("/items", middleware.isLoggedIn, async(req,res,next)=>{
 
 //update items
 router.get("/items/update/:id",middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
-    console.log("Inside get item update")
+    
     const itemId =  req.params.id;
-
     res.render('admin-layout/item_update', {_id: itemId});
 })
 
@@ -47,9 +50,10 @@ router.post("/items/update/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 
   const itemId = req.params.id;
   const itemTitle = req.body.title;
+  const itemPrice = req.body.price;
 
 
-  const updatedItem = await itemDAO.updateItem(itemId, itemTitle);
+  const updatedItem = await itemDAO.updateItem(itemId, itemTitle,itemPrice);
 
       successMsg = req.flash('success', 'Item updated');
       res.redirect('/admin/items');
@@ -76,7 +80,7 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
     const price = req.body.price;
 
     const newItem = await itemDAO.create(imagePath,title, description, story, size, price );
-    console.log(newItem)
+
     if(newItem){
         newItem.save();
         req.flash('success', 'Item Created');
@@ -92,21 +96,23 @@ router.post("/items/add",  middleware.isLoggedIn, middleware.isAdmin, async (req
 router.get("/items/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
     const itemId = req.params.id;
     const success = await itemDAO.deleteById(itemId);
-    console.log(success)
+   
     req.flash('success', 'Item has been successfully deleted!');
     res.redirect('/admin/items');
     
 
 });
 
+
+//orders for admin
+
 //get all orders for admin 
 
 router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
 
     if(req.user.roles.includes('admin')){
-        
+        let successMsg = req.flash('success')[0];
         orders = await orderDAO.getAll();
-        console.log(orders);
         res.render('admin-layout/orders', {orders: orders,successMsg: successMsg, noMessages: !successMsg})
     }
     else{
@@ -115,11 +121,11 @@ router.get("/orders", middleware.isLoggedIn, async(req,res,next)=>{
     }
 });
 
-//update items
-router.get("/orders/update/:id",middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
-    console.log("Inside get order update")
-    const orderId =  req.params.id;
+//update orders
 
+router.get("/orders/update/:id",middleware.isLoggedIn, middleware.isAdmin, async (req, res, next) => {
+    
+    const orderId =  req.params.id;
     res.render('admin-layout/orders_update', {_id: orderId});
 })
 
@@ -130,8 +136,7 @@ router.post("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, asy
 
 
   const updatedOrder = await orderDAO.updateOrder(orderId, orderStatus);
-    console.log(updatedOrder)
-
+   
       successMsg = req.flash('success', 'Order status has been updated');
       res.redirect('/admin/orders');
   

@@ -51,7 +51,6 @@ router.post('/', isLoggedIn, async function(req, res, next) {
     const user = req.user;
    
     const order = await orderDAO.create(user,itemObjs, address, recipient);
-    console.log(order);
     req.flash('success', 'Successfully bought product!');    
     req.session.cart = null;
     res.redirect('/');
