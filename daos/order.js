@@ -16,6 +16,9 @@ const aggregationGetOrder = [
     total: 1, 
     userId: 1,
     status: 1,
+    address: 1,
+    recipient: 1,
+    created: 1,
     itemDetail: {
       _id: "$it._id",
       title: "$it.title",
@@ -29,6 +32,9 @@ const aggregationGetOrder = [
     userId: {$first: "$userId"},
     status: {$first: "$status"},
     total: {$first: "$total"},
+    address: {$first: "$address"},
+    recipient: {$first: "$recipient"},
+    created: {$first: "$created"},
     items: { $addToSet: "$itemDetail"},
   }},
 ];
@@ -95,27 +101,25 @@ module.exports.getById = async(orderId) => {
 }
 
 
-module.exports.updateById = async (orderId, itemObjs) => {
-  const mappedItems = await mapReqItems(itemObjs);
-  const itemsResultSet = await getDBItems(mappedItems);
-  const areItemsValid = await areValid(itemObjs, itemsResultSet);
-  
-  if (!areItemsValid) {
-    throw new BadDataError('invalid order item');
+
+
+module.exports.updateOrder= async(orderId, orderStatus) => {
+    
+  try{
+      const updatedOrder= await Order.updateOne(
+        { _id: orderId }, 
+        {status : orderStatus});
+      return updatedOrder;
+
+  }catch(error){
+      throw error;
   }
 
-  const total = await computeTotal(itemObjs, itemsResultSet);
+
+};
 
 
-  await Order.updateOne({ _id: orderId }, { $set: { items: mappedItems, total, updated: new Date() } });
-  return true;
-}
 
-
-module.exports.cancelById = async (orderId) => {
-  await Order.updateOne({ _id: orderId }, { $set: { status: 'Cancelled' } });
-  return true;
-}
 
 /*
  * Validate order items.

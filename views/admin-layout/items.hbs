@@ -1,5 +1,3 @@
-<h1 style="text-align : center;">Welcome to Creamery-on-a-Click</h1>
-
 <div class="row">
     <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
      <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
@@ -7,6 +5,10 @@
         </div>   
     </div>
 </div>
+<a href="/admin"><b style ="text-align: left">Back</b></a>
+
+        
+        <h2 style = "text-align: center">All Items</h2>
 
 <a href="items/add"><b style ="text-align: left">Add an item</b></a> 
 
@@ -26,8 +28,10 @@
                          </div>
                         
                         <div class="clearfix">
-                            <a href="items/update" class= "pull-left"><b>Update</b></a> 
-                            <a href="items/delete" class= "pull-right"><b>Delete</b></a> 
+                            <a href="/admin/items/update/{{this._id}}" class= "pull-left"><b>Update</b></a> 
+                        
+                            <a href="/admin/items/{{this._id}}" class= "pull-right"><b>Delete</b></a>  
+                            {{!-- <a href="/admin/items/delete" class="btn btn-success pull-right" role="button">Delete</a>  --}}
                                 
                         </div>                         
                         

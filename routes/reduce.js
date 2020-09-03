@@ -3,7 +3,7 @@ const router = Router();
 
 const Cart= require('../allCarts/shoppingCart');
 
-
+//rednering and reducing item quantity
 
 router.get('/:id', async(req, res, next) => {
     var itemId = req.params.id;

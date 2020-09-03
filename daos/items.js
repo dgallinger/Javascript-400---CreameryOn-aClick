@@ -4,7 +4,7 @@ const Item = require('../models/items');
 module.exports = {};
 
 
-module.exports.create = async (title, price, imagePath, description, story, size) => {
+module.exports.create = async (imagePath,title, description, story, size, price) => {
 
     let item = await Item.findOne({ title: title});
 
@@ -17,7 +17,7 @@ module.exports.create = async (title, price, imagePath, description, story, size
                 imagePath: imagePath,
                 title: title,
                 price: price,
-                decription: description,
+                description: description,
                 story: story,
                 size: size
 
@@ -59,11 +59,11 @@ module.exports.getById = async(itemId) => {
 
 
 
- module.exports.updateItem = async(itemId, price, title, description, story, size, imagePath) => {
+ module.exports.updateItem = async(itemId, title) => {
     
         try{
-            const updatedItem = await Item.update({ _id: itemId }, { price: price }, 
-                {title: title},{description:description},{story: story},{size: size},{imagePath: imagePath});
+            const updatedItem = await Item.updateOne({ _id: itemId }, 
+                {title: title})
             return updatedItem;
 
         }catch(error){
@@ -73,7 +73,7 @@ module.exports.getById = async(itemId) => {
 
  };
 
- //// Delete
+ // Delete
  module.exports.deleteById = async (itemId) => {
   if (!mongoose.Types.ObjectId.isValid(itemId)) {
     return false;

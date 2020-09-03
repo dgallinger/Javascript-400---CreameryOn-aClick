@@ -19,7 +19,7 @@
 
  5. The project is deployed on Heroku. The user experience for our shopping application can be enjoyed through the following url:
 
- 	https://dashboard.heroku.com/apps/vast-inlet-57676
+ 	https://vast-inlet-57676.herokuapp.com/
 
  Please feel free to login and place an order for your favorite icecream. 
 

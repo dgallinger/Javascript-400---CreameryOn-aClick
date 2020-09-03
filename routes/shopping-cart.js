@@ -3,7 +3,7 @@ const { Router } = require("express");
 const router = Router();
 const Cart= require('../allCarts/shoppingCart')
 
-
+// get shooping cart before creating order
 
 router.get("/", async(req,res,next) => {
     

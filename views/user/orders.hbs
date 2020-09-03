@@ -1,3 +1,5 @@
+
+<a href="/user/profile"><b style ="text-align: left">Back</b></a>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h1>User Profile</h1>
@@ -8,6 +10,10 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         <strong> Order Number : {{this._id}} </strong>
+                        <a href="/user/profile/orders/{{this._id}}"><b style ="text-align: left">Get Details</b></a> 
+                        <b><h5>User ID: {{this.userId}}</h5></b>
+                        <b><h5>Created On: {{this.created}}</h5></b>
+                        <b><h5>Order Status: {{this.status}}</h5></b>
                         
                       
                         {{# each this.items }}

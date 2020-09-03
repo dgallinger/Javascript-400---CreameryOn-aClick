@@ -1,15 +1,28 @@
+
+<a href="/user/profile"><b style ="text-align: left">Back</b></a>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+     <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+            {{ successMsg }}
+        </div>  
+    <div id="error" class="alert alert-danger" {{#if noErrMessages}}hidden{{/if}}>
+            {{ errorMsg }}
+    </div> 
+    
+    </div>
+</div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h1>User Profile</h1>
-        <hr>
-        <h2>My Wishlists</h2>
+
+        <h3>My Wishlists</h3>
         {{# each wishlists}}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="list-group">
                         <strong> WishList Name: {{this.name}} </strong>
-                        
-                      
+                         <a href="/user/profile/wishlists/update/{{this._id}}" class="btn-xs btn-success" role="button"> Update </a>  
+                         <a href="/user/profile/wishlists/{{this._id}}" class= "pull-right"><b>Delete</b></a>  
                         {{# each this.items }}
                             <li class="list-group-item">
                                 <span class="badge"> ${{ this.price}}</span>

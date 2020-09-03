@@ -1,7 +1,42 @@
+
 <div class="row">
     <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
-        
-      
-       <h2>Orders lists</h2>
-  
+     <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+            {{ successMsg }}
+        </div>   
+    </div>
 </div>
+<a href="/admin"><b style ="text-align: left">Back</b></a>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        
+        <h2>All Orders</h2>
+        {{# each orders }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <strong> Order Number : {{this._id}} </strong>
+                        <a href="/admin/orders/update/{{this._id}}"><b style ="text-align:left"> Update Order Status</b></a> 
+                        <b><h5>User ID: {{this.userId}}</h5></b>
+                        <b><h5>Order Status: {{this.status}}</h5></b>
+                        <b><h5>Order for: {{this.recipient}}</h5></b>
+                        <b><h5>Delivery at : {{this.address}}</h5></b>
+
+                        
+                      
+                        {{# each this.items }}
+                            <li class="list-group-item">
+                                <span class="badge"> ${{ this.price }}</span>
+                                {{ this.title }} || <strong> {{ this.quantity }} </strong>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <strong>Total Price: ${{ this.total }}</strong>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+  

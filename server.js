@@ -5,18 +5,22 @@ const server = express();
 const Handlebars = require('handlebars')
 const expressHbs = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const validator = require('express-validator');
 const MongoStore = require('connect-mongo')(session);
+const fileUpload = require('express-fileupload');
 
 
 server.use(express.json());
 server.use(express.static('files'));
+server.use(fileUpload());
+// server.use(express.urlencoded({ extended: true }));
+
 
 
 
@@ -29,7 +33,7 @@ server.engine('.hbs', expressHbs({
 );
 server.set('view engine', '.hbs');
 server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.urlencoded({ extended: true }));
 server.use(validator());
 server.use(cookieParser());
 

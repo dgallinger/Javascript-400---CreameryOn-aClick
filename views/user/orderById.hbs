@@ -1,0 +1,33 @@
+
+
+<a href="/user/profile/orders"><b style ="text-align: left">Back</b></a>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3 style= "text-align: center">This Order</h3>
+        
+            <div class="panel-body">
+                    <ul class="list-group">
+                        <strong> Order Number : {{this.order._id}} </strong>
+                        <b><h5>User ID: {{this.order.userId}}</h5></b>
+                        <b><h5>Order Status: {{this.status}}</h5></b>
+                        <b><h5>Order for: {{this.order.recipient}}</h5></b>
+                        <b><h5>Delivery at : {{this.order.address}}</h5></b>
+                        <b><h5>Created On: {{this.order.created}}</h5></b>
+                        
+                        <b><h5>Your box will have the following products:</h5></b>
+                        {{# each this.order.items }}
+                            <li class="list-group-item">
+                                <span class="badge"> ${{ this.price }}</span>
+                                {{ this.title }} || <strong> {{ this.quantity }} </strong>
+                            </li>
+                        {{/each}}
+                    </ul>
+             </div>
+            <div class="panel-footer">
+                    <strong>Total Price: ${{ this.order.total }}</strong>
+            </div>
+        
+                        
+    </div>
+</div>
+                

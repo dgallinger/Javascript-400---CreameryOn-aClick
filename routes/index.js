@@ -10,14 +10,14 @@ router.use("/contact", require("./contact"));
 router.use("/shopping-cart", require("./shopping-cart"));
 router.use("/wishlist-cart", require("./wishlist-cart"));
 router.use("/checkout", require("./checkout"));
-router.use("/change-password",require("./change-password"));
 router.use("/reduce", require("./reduce"));
 router.use("/remove", require("./remove"));
 router.use("/admin", require("./admin"));
 router.use("/wishlist", require("./wishlist"));
-
-
 router.use("/", require("./item"));
+
+
+
 
 
 /*
@@ -38,7 +38,6 @@ router.use(async (err, req, res, next) => {
   }
   else 
   {
-    console.log(err);
     res.status(500).send('An unexpected error occurred.')  
   } 
 });
