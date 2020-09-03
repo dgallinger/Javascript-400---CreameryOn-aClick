@@ -5,14 +5,16 @@ const passport = require('passport');
 const middleware = require('./middleware');
 const orderDAO = require('../daos/order');
 const wishlistDAO = require('../daos/wishlist');
+// const app = require('../server');
 
 
-
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 //csrf protection using as a middleware
 
-const  csrfProtection = csrf();
-router.use(csrfProtection);
+//const  csrfProtection = csrf();
+//router.use(csrfProtection);
 
 
 
@@ -65,7 +67,7 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
-    res.render('user/signup', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0 })
+    res.render('user/signup', { messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -85,13 +87,11 @@ router.post('/signup', passport.authenticate('local.signup',{
 }
 });
 
-  
-
 router.get('/signin', async (req, res, next) => {
     
     const messages = req.flash('error');
     
-    res.render('user/signin', { csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});
+    res.render('user/signin', { messages: messages, hasErrors: messages.length > 0});
     
     req.session.cart;
   });
@@ -102,13 +102,11 @@ router.post('/signin', passport.authenticate('local.signin', {
     failureFlash: true
   
   }), function (req, res, next) {
-    admin = req.user.roles;
+      admin = req.user.roles;
     if (req.session.oldUrl) {
         // let oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
-        res.redirect('/checkout');
-        
-        
+        res.redirect('/checkout');   
     } else{ 
         if (admin[0] == "admin")
         {

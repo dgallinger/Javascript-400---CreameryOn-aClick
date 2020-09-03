@@ -26,10 +26,12 @@ passport.use('local.signup', new LocalStrategy({
     req.checkBody('email', 'Check Email').notEmpty().isEmail();
     req.checkBody('password', 'Password must be at least 4 characters').notEmpty().isLength({min:4});
     const errors = req.validationErrors();
+    //console.log('passport signup');
     if (errors) {
         var messages = [];
         errors.forEach(function(error){
             messages.push(error.msg);
+            //console.log(error.msg);
         });
         return done(null, false, req.flash( 'error', messages));
     }
