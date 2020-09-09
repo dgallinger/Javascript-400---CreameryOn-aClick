@@ -12,7 +12,7 @@ const itemDAO = require('../daos/items');
 
 
 
-router.get("/", async (req,res,next) => {
+router.get("/", middleware.isPublic, async (req,res,next) => {
 
   let successMsg = req.flash('success')[0];
   let errorMsg = req.flash('error')[0];

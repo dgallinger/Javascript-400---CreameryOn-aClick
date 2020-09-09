@@ -3,9 +3,11 @@ const router = Router();
 const Cart= require('../allCarts/wishlistCart')
 const wishlistDAO = require('../daos/wishlist')
 
+const middleware = require('./middleware');
+
 //creating wishlist
 
-router.get("/",  async(req,res,next)=> {
+router.get("/", middleware.isLoggedIn, async(req,res,next)=> {
 
     if(!req.session.wishlistcart){
         return res.redirect('/wishlist-cart');

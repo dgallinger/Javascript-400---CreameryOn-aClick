@@ -47,3 +47,9 @@ module.exports.isAdmin = (async (req, res, next) => {
     res.sendStatus(403);
   }
 });
+
+
+module.exports.isPublic = (async(req,res,next) => {
+  next();
+
+});
