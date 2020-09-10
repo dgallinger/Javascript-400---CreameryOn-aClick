@@ -21,21 +21,20 @@ passport.deserializeUser(function(id, done){
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
+    //roleField: 'role',
     passReqToCallback: true
 },function(req, email, password, done) {
     req.checkBody('email', 'Check Email').notEmpty().isEmail();
     req.checkBody('password', 'Password must be at least 4 characters').notEmpty().isLength({min:4});
     const errors = req.validationErrors();
-    //console.log('passport signup');
     if (errors) {
         var messages = [];
         errors.forEach(function(error){
             messages.push(error.msg);
-            //console.log(error.msg);
         });
         return done(null, false, req.flash( 'error', messages));
     }
-    userDAO.signUp(email, password,done);
+    userDAO.signUp(email, password, done);
 
 }));
 

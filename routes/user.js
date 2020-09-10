@@ -4,26 +4,11 @@ const passport = require('passport');
 const middleware = require('./middleware');
 const orderDAO = require('../daos/order');
 const wishlistDAO = require('../daos/wishlist');
-<<<<<<< HEAD
-// const app = require('../server');
-
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-//csrf protection using as a middleware
-
-//const  csrfProtection = csrf();
-//router.use(csrfProtection);
-
-
-=======
 const userDAO = require('../daos/users');
 
 
 
 //getting user orders
->>>>>>> 2bec5a24dbd6be5cf7f775c0c07a43059781060c
 
 router.get('/profile/orders', middleware.isLoggedIn, async(req,res,next) => {
   
@@ -132,8 +117,8 @@ router.get('/change-password', async(req,res,next) =>{
 // change password
 
 router.post("/change-password",  async(req,res)=>{
-  
-  const {email} = req.user;
+    
+  const {email} = req.body.user;
   const {password} = req.body;
 
   const changePass = await userDAO.changePassword(email, password);
@@ -173,12 +158,10 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
-<<<<<<< HEAD
-    res.render('user/signup', { messages: messages, hasErrors: messages.length>0 })
-=======
-    
-    res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
->>>>>>> 2bec5a24dbd6be5cf7f775c0c07a43059781060c
+    req.session.save(() => {
+      res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 });
+    })
+   // res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -199,21 +182,14 @@ router.post('/signup', passport.authenticate('local.signup',{
 }
 });
 
-<<<<<<< HEAD
-=======
   
 // get signin
->>>>>>> 2bec5a24dbd6be5cf7f775c0c07a43059781060c
 router.get('/signin', async (req, res, next) => {
     
     const messages = req.flash('error');
     // csrfToken: req.csrfToken(),
     
-<<<<<<< HEAD
-    res.render('user/signin', { messages: messages, hasErrors: messages.length > 0});
-=======
     res.render('user/signin', {  messages: messages, hasErrors: messages.length > 0});
->>>>>>> 2bec5a24dbd6be5cf7f775c0c07a43059781060c
     
     req.session.cart;
   });
@@ -242,8 +218,5 @@ router.post('/signin', passport.authenticate('local.signin', {
         
     }}
   });
-
-
-
 
 module.exports = router;

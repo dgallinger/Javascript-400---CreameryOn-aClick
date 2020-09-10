@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 
 module.exports.signUp = async (email, password, done) => {
 
-//console.log('dao signup');
 User.findOne({'email': email},function (err, user){
     if (err){
         return done(err);
@@ -25,7 +24,6 @@ User.findOne({'email': email},function (err, user){
             return done(err);
         }
         return done(null, newUser);
-        //console.log(newUser);
     })
 
 });

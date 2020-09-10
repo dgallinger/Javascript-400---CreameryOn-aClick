@@ -39,6 +39,7 @@
     "handlebars": "^4.7.6",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
+    "passport-mock-strategy": "^2.0.0",
     "supertest": "^4.0.2"
   },
   "keywords": [],
