@@ -338,7 +338,6 @@ describe('admin.js', () => {
         });
 
         const apiUrl = routePathProfileGetOrderById.replace(":id", mockOrder._id);
-        console.log('apiUrl', apiUrl);
         const res = await request(server).get(apiUrl).send();
         
         expect(res.statusCode).toEqual(200); 
