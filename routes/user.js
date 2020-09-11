@@ -76,7 +76,7 @@ const wishlistId = req.params.id;
 res.render('user/wishlist-update', {_id: wishlistId})
 });
 
-router.post('/profile/wishlists/update/:id', async(req,res,next) => {
+router.post('/profile/wishlists/update/:id', middleware.isLoggedIn, async(req,res,next) => {
   const wishlistId = req.params.id;
   const {name} = req.body;
   updatedItem = await wishlistDAO.updateWishlist(wishlistId, name);
