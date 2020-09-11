@@ -40,7 +40,7 @@ module.exports.notLoggedIn= (async (req, res, next) => {
 
 
 module.exports.isAdmin = (async (req, res, next) => {
-  
+
   if (req.user.roles.includes(roleNameAdmin)) {
     next();
   } else {

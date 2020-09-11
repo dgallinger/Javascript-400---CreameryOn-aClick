@@ -117,8 +117,8 @@ router.get('/change-password', async(req,res,next) =>{
 // change password
 
 router.post("/change-password",  async(req,res)=>{
-  
-  const {email} = req.user;
+    
+  const {email} = req.body.user;
   const {password} = req.body;
 
   const changePass = await userDAO.changePassword(email, password);
@@ -158,8 +158,10 @@ router.get('/logout', middleware.isLoggedIn,async(req,res,next) => {
 router.get('/signup', async(req,res,next) => {
     
     const messages = req.flash('error');
-    
-    res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
+    req.session.save(() => {
+      res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 });
+    })
+   // res.render('user/signup', {  messages: messages, hasErrors: messages.length>0 })
   
   });
   
@@ -200,13 +202,11 @@ router.post('/signin', passport.authenticate('local.signin', {
     failureFlash: true
   
   }), function (req, res, next) {
-    admin = req.user.roles;
+      admin = req.user.roles;
     if (req.session.oldUrl) {
         // let oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
-        res.redirect('/checkout');
-        
-        
+        res.redirect('/checkout');   
     } else{ 
         if (admin[0] == "admin")
         {
@@ -218,8 +218,5 @@ router.post('/signin', passport.authenticate('local.signin', {
         
     }}
   });
-
-
-
 
 module.exports = router;

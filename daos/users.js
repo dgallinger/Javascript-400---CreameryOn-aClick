@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 
 module.exports.signUp = async (email, password, done) => {
 
-
 User.findOne({'email': email},function (err, user){
     if (err){
         return done(err);

@@ -104,3 +104,6 @@ dist
 .tern-port
 
 globalConfig.json
+
+# stores custom attributes
+.DS_Store

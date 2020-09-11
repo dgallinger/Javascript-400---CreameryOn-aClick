@@ -51,6 +51,7 @@ server.use(session({
 server.use(flash());
 
 // user login
+//require('./config/passport')(passport);
 server.use(passport.initialize());
 server.use(passport.session()); // store users in a session
 

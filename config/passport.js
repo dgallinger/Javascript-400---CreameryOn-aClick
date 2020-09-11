@@ -21,6 +21,7 @@ passport.deserializeUser(function(id, done){
 passport.use('local.signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
+    //roleField: 'role',
     passReqToCallback: true
 },function(req, email, password, done) {
     req.checkBody('email', 'Check Email').notEmpty().isEmail();
@@ -33,7 +34,7 @@ passport.use('local.signup', new LocalStrategy({
         });
         return done(null, false, req.flash( 'error', messages));
     }
-    userDAO.signUp(email, password,done);
+    userDAO.signUp(email, password, done);
 
 }));
 
