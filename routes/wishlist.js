@@ -18,7 +18,7 @@ router.get("/", middleware.isLoggedIn, async(req,res,next)=> {
 });
 
 
-router.post('/', async function(req, res, next) {
+router.post('/', middleware.isLoggedIn, async function(req, res, next) {
 
    const cart = new Cart(req.session.wishlistcart);
    const cartItems = cart.getItems();
